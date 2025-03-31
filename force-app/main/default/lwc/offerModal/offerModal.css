@@ -1,0 +1,49 @@
+/* Exemple de transition pour le modal */
+.slds-modal.slds-fade-in-open {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+
+/* Aligner le texte à gauche dans le modal */
+.slds-text-align_left {
+    text-align: left;
+}
+
+/* Appliquer des puces sous forme de cercles avant chaque élément de liste */
+.custom-list {
+    list-style-type: none; /* Enlever les puces par défaut */
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Ajouter un espacement similaire à celui des titres avant les éléments de la liste */
+.custom-list li {
+    position: relative;
+    padding-left: 20px; /* Espacement pour l'icône */
+    margin-bottom: 10px; /* Espacement entre les éléments */
+    margin-left: 60px; /* Espacement pour aligner avec les titres */
+}
+
+/* Ajouter des puces en forme de cercle */
+.custom-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d29a00; /* Couleur du cercle (par exemple, bleu) */
+}
+
+.slds-modal_custom {
+    max-width: 60% !important; /* Ajuste la largeur */
+    height: 100% !important; /* Ajuste la hauteur */
+}

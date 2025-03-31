@@ -1,0 +1,145 @@
+<template>
+    <template if:true={products}>
+           <!-- Bouton de comparaison -->
+           <div class="compare-button-container">
+            <lightning-button  variant="neutral" class="slds-button" disabled={cantCompare} onclick={showComparison} label="Comparer les offres sélectionnées"></lightning-button>
+    </div>
+            <div class="offers-container">
+            <template for:each={products} for:item="product">
+                <div key={product.Id} class="offer-card {product.imagePosition}">
+                    <!-- Image de l'offre -->
+                    <template if:true={product.Image_URL}>
+                        <img src={product.Image_URL} alt={product.Name} class="offer-image" />
+                    </template>
+                    <div class="offer-text">
+                        <h1>{product.Name}</h1>
+                        <h2>{product.Description}</h2>
+                        <p class="price">{product.Price__c} DT/mois</p>
+    
+                        <!-- Section des icônes et bouton souscrire -->
+                        <div class="offer-icons">
+                              <!-- Icône de comparaison -->
+                              <lightning-input type="checkbox" title="Sélectionner pour comparer"  onchange={handleSelectOffer} data-id={product.Id}   checked={product.isSelected}></lightning-input>
+                            <!-- Icône de détails -->
+                            <lightning-icon icon-name="utility:info" size="small" onclick={showDetails} data-id={product.Id} title="Voir les détails"></lightning-icon>
+                             <!-- Modal de détails -->
+
+                            <!-- Bouton Souscrire avec style SLDS -->
+                            <lightning-button variant="brand" label="Souscrire" onclick={subscribeOffer} data-id={product.Id} class="souscrire-button"></lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        
+          
+
+        <!-- Tableau comparatif -->
+        <template if:true={showComparisonTable}>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Critères</th>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <th key={offer.Id}>{offer.Name}</th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Prix </td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>{offer.Price__c} DT/mois</td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Plafond de remboursement</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>{offer.Reimbursement_Cap__c} DT</td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Pourcentage de remboursement</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>{offer.Reimbursement_Percentage__c}%</td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Franchise</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>{offer.Deductible__c} DT</td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Durée de couverture</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>{offer.Coverage_Duration__c} mois</td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Couverture hospitalisation</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>
+                                    <ul class="custom-list">
+                                        <template for:each={offer.hospitalizationList} for:item="item">
+                                            <li key={item}>{item}</li>
+                                        </template>
+                                    </ul>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Couverture dentaire et optique</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>
+                                    {offer.DentalAndOpticalCoverageIcon}  <!-- 🦷 Affichage d'icône ✔️ ou ❌ -->
+                                </td>
+                            </template>
+                        </tr>
+                        
+                        <tr>
+                            <td>Principaux avantages</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>
+                                    <ul class="custom-list">
+                                        <template for:each={offer.benefitsList} for:item="item">
+                                            <li key={item}>{item}</li>
+                                        </template>
+                                    </ul>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <td>Exclusions</td>
+                            <template for:each={selectedOffers} for:item="offer">
+                                <td key={offer.Id}>
+                                    <ul class="custom-list">
+                                        <template for:each={offer.exclusionsList} for:item="item">
+                                            <li key={item}>{item}</li>
+                                        </template>
+                                    </ul>
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="compare-button-container">
+                <lightning-button variant="neutral" class="slds-button" onclick={hideComparison} label="Fermer la comparaison"></lightning-button>
+            </div>
+            </div>
+        </template>
+        
+        <template if:true={isModalDetailsOfferVisible}>
+            <c-offer-modal offer={selectedOffer} onclose={handleClose}></c-offer-modal>
+
+        </template>
+
+        <template if:true={isModalSouscriptionVisible}>
+            <c-souscription-modal offer={selectedOffer} onclose={handleCloseSouscription}></c-souscription-modal>
+        </template>
+    
+
+    </template>
+    
+</template>

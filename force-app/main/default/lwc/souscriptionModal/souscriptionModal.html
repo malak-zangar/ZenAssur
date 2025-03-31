@@ -1,0 +1,122 @@
+<template>
+    <div class="form-container">
+        <template if:false={isSubmitted}>
+            <div class="modal-header">
+                <h2 class="form-title">Souscription à l'offre: {offerName}</h2>
+            </div>
+            
+            <div class="modal-content">
+                <lightning-record-edit-form object-api-name="Lead" onsuccess={handleSuccess} onerror={handleError}  >
+                    
+                    <!-- Section 1: Informations Personnelles -->
+                    <div class="form-section">
+                        <h3 class="section-title">Informations Personnelles</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="LastName" label="Nom" 
+                                 required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="FirstName" label="Prénom" required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Email" type="email" label="Email"
+                                required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Phone" type="tel" label="Téléphone"
+                                    required class="custom-input"></lightning-input-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Informations Entreprise -->
+                    <div class="form-section">
+                        <h3 class="section-title">Informations sur l'Entreprise</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Company" label="Nom de l'entreprise" required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="NumberOfEmployees" type="number"
+                             label="Nombre d'employés" required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Industry" label="Domaine d'activité" required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="AnnualRevenue" type="currency" aria-placeholder="En DT" label="Revenu Annuel" required class="custom-input" 
+                               
+                                format-style="currency" ></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-p-bottom_medium">
+                                <lightning-input-field field-name="Address" label="Adresse" required class="custom-input"></lightning-input-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Détails Souscription -->
+                    <div class="form-section">
+                        <h3 class="section-title">Détails de la Souscription</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input label="Nom de l'offre" value={offerName} disabled class="custom-input"></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input label="Prix DT/mois" value={offerPrice} disabled class="custom-input"></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input-field field-name="Coverage_Duration__c" type="number" aria-placeholder="Durée (mois)" label="Durée (mois)" required class="custom-input"></lightning-input-field>
+                            </div>
+                            <lightning-input-field field-name="Offer__c" value={offerId} class="slds-hidden"></lightning-input-field>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <lightning-button variant="brand" label="Souscrire" 
+                        onclick={handleConfirm} 
+                        type="button"
+                        class="submit-button">
+                    </lightning-button>
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+        </template>
+
+        <template if:true={isSubmitted}>
+            <div class="success-card">
+                <div class="success-icon-container">
+                    <svg class="success-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h2 class="success-title">Souscription confirmée !</h2>
+                <p class="success-message">Votre demande a bien été enregistrée. Un conseiller vous contactera sous 48h.</p>
+                <div class="success-details">
+                    <div class="detail-item">
+                        <svg class="detail-icon" viewBox="0 0 24 24">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <span>Un email vous a été envoyé, consultez votre boite de réception</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+            <!-- Confirmation Modal -->
+        <template if:true={showConfirmation}>
+            <div class="confirmation-overlay">
+                <div class="confirmation-modal">
+                    <p class="confirmation-text">Voulez-vous vraiment souscrire à cette offre ?</p>
+                    <div class="confirmation-buttons">
+                        <lightning-button variant="brand" label="Confirmer" onclick={confirmSubmission}></lightning-button>
+                        <lightning-button variant="neutral" label="Annuler" onclick={handleCancel}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+
+</template>

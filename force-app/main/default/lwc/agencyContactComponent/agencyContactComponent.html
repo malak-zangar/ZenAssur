@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Nos agences & Moyens de contact" icon-name="standard:account">
+        <div class="contact-container">
+            <!-- Section Agences -->
+            <section class="agency-location">
+                <div class="agency-list">
+                    <template for:each={agencyLocations} for:item="agency">
+                        <div key={agency.id} class="agency-item">
+                            <h3>{agency.title}</h3>
+                            <p>{agency.description}</p>
+                            <p>{agency.phone}</p>
+                            <p>{agency.email}</p>
+                        </div>
+                    </template>
+                </div>
+                <div class="map-container">
+                    <!-- Google Maps ou une carte personnalisée ici -->
+                    <lightning-map
+                        map-markers={agencyLocations1}
+                        zoom-level="12"
+                        class="agency-map"
+                    ></lightning-map>
+                </div>
+            </section>
+
+        </div>
+    </lightning-card>
+</template>

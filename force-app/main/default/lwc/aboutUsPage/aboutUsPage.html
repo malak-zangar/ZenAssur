@@ -1,0 +1,131 @@
+<template>
+    <section class="about-us">
+
+        <!-- Nos Valeurs -->
+        <section class="our-values">
+            <h2>Nos valeurs fondamentales</h2>
+            <div class="values-list">
+                <div class="value-card">
+                    <lightning-icon icon-name="utility:topic" size="large" alternative-text="Transparence" class="icon"></lightning-icon>
+                    <h3><b>Transparence</b></h3> 
+                     <p>Nous croyons que chaque assuré mérite d’avoir une vision claire et précise de sa couverture.</p>
+                </div>
+                <div class="value-card">
+                    <lightning-icon icon-name="utility:topic" size="large" alternative-text="Accessibilité" class="icon"></lightning-icon>
+                    <h3><b>Accessibilité</b></h3>
+                    <p>Des solutions d'assurance accessibles pour tous, avec des tarifs compétitifs et une couverture optimale.</p>
+                </div>
+                <div class="value-card">
+                    <lightning-icon icon-name="utility:topic" size="large" alternative-text="Innovation" class="icon"></lightning-icon>
+                    <h3><b>Innovation</b></h3></br>
+                    <p>Nous utilisons les dernières technologies pour simplifier l’expérience de nos assurés, tout en offrant des services à la pointe de la technologie.</p>
+                </div>
+                <div class="value-card">
+                    <lightning-icon icon-name="utility:topic" size="large" alternative-text="Service Client" class="icon"></lightning-icon>
+                    <h3><b>Service Client</b></h3></br>
+                    <p>Notre équipe est à votre écoute à chaque étape de votre parcours chez ZenAssur, pour vous accompagner avec soin et professionnalisme.</p>
+                </div>
+            </div>
+        </section>
+    </br> </br>
+        <!-- Notre Histoire
+        <section >
+            <h2>Notre Histoire</h2>
+            <p class="about-us-history">
+                Fondée en 2021, ZenAssur a été créée avec la mission de révolutionner l'assurance santé. 
+                Nous avons remarqué que de nombreuses assurances étaient compliquées, difficiles à comprendre et inaccessibles pour certaines personnes. 
+                ZenAssur a vu le jour pour offrir des solutions plus simples, plus humaines et plus adaptées à tous. 
+                Notre but est de rendre l'assurance santé aussi zen que la vie elle-même.
+            </p>
+        </section> -->
+        <section class="mission-vision-container">
+            <!-- Mission -->
+            <section class="our-mission">
+                <div class="title-wrapper">
+                    <span class="icon">🚀</span>
+                    <h2>Notre Mission</h2>
+                </div>
+                <p>
+                    Offrir une couverture santé claire, accessible et transparente. Nous simplifions l'assurance avec des solutions adaptées et un service client à l’écoute.
+                </p>
+            </section>
+        
+            <!-- Vision -->
+            <section class="our-vision">
+                <div class="title-wrapper">
+                    <span class="icon">👀</span>
+                    <h2>Notre Vision</h2>
+                </div>
+                <p>
+                    Devenir le leader de l’assurance santé simple et accessible, en exploitant la technologie pour offrir des services plus rapides, transparents et humains.
+                </p>
+            </section>
+        </section>
+        
+        
+       <!-- Pourquoi Choisir ZenAssur ? -->
+<section class="why-choose-us">
+    <h2>Pourquoi choisir ZenAssur ?</h2>
+    <div class="why-choose-grid">
+        <div class="why-item">✔ Des couvertures complètes, mais simples à comprendre.</div>
+        <div class="why-item">✔ Un service client réactif et à l’écoute.</div>
+        <div class="why-item">✔ Un processus d'inscription rapide et transparent.</div>
+        <div class="why-item">✔ Des solutions adaptées à chaque individu.</div>
+    </div>
+</section>
+
+
+        <!-- Témoignages -->
+     <section class="testimonials">
+    <h2>Ce que nos clients disent</h2>
+    <div class="testimonial-card">
+        <div class="testimonial-content">
+            <lightning-icon icon-name="utility:user" size="large" alternative-text="Utilisateur" class="testimonial-avatar"></lightning-icon>
+            <div class="testimonial-text">
+                <p>
+                    "ZenAssur m'a facilité la vie avec des solutions d'assurance claires et accessibles. Je me sens rassuré et bien accompagné à chaque étape."
+                </p>
+                <p class="client-name">— Sophie L., cliente satisfaite</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="testimonial-card">
+        <div class="testimonial-content">
+            <lightning-icon icon-name="utility:user" size="large" alternative-text="Utilisateur" class="testimonial-avatar"></lightning-icon>
+            <div class="testimonial-text">
+                <p>
+                    "L'équipe ZenAssur est réactive et toujours disponible pour répondre à mes questions. Une expérience vraiment positive."
+                </p>
+                <p class="client-name">— Marc P., client fidèle</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+         
+
+        <!-- Call-to-Action (CTA) 
+        <section class="cta">
+            <h3>Prêt à rejoindre ZenAssur ?</h3>
+            <p>Découvrez nos offres d’assurance santé et choisissez celle qui vous correspond le mieux.</p>
+            <lightning-button label="Souscrire maintenant ! " onclick={handleSubscribe}></lightning-button>
+        </section>-->
+  
+
+    <!-- Call-to-Action (CTA) -->
+    <section class="cta">
+        <div class="cta-text">
+            <h3>Prêt à rejoindre ZenAssur ?</h3>
+            <p>Découvrez nos offres d’assurance santé et choisissez celle qui vous correspond le mieux.</p>
+        </div>
+        <div class="cta-button">
+            <lightning-button variant="brand" label="Souscrire maintenant !" 
+                              icon-name="utility:check" icon-position="left" 
+                              onclick={handleSubscribe}></lightning-button>
+        </div>
+    </section>
+    
+</section>
+
+</template>

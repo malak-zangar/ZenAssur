@@ -1,0 +1,296 @@
+/* Styles Généraux */
+.about-us {
+    padding: 50px;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+
+}
+
+h2 {
+    font-size: 30px;
+    text-align: center;
+    color: #a72305ee;
+    margin-bottom: 20px;
+    /*text-transform: uppercase;*/
+    letter-spacing: 1px;
+}
+
+/* Nos Valeurs */
+.our-values .values-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.value-card {
+    background: white;
+    color: #333;
+    width: 23%;
+    padding: 20px;
+    /*border-radius: 10px;*/
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.value-card::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f7d1c9, #8f4109);
+    z-index: -1;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    font-size: 40px;
+   /* color: #f1be99;*/
+   /* margin-bottom: 10px;*/
+    font-size: 24px;
+    animation: bounce 1.5s infinite;
+}
+
+.mission-vision-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.our-mission, .our-vision {
+    background-color: #fff;
+    padding: 70px 20px 10px; /* Augmente le padding-top */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 48%;
+    min-width: 300px;
+    text-align: center;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+
+/* Effet gradient */
+.our-mission::before, .our-vision::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f88c76, #f8f8f7);
+    z-index: -1;
+}
+
+/* Animation au survol */
+.our-mission:hover, .our-vision:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Titre qui sort du cadre */
+.title-wrapper {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    /*background: white;*/
+    padding: 13px 10px ;
+    border-radius: 20px;
+   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);*/
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent !important;
+}
+
+/* Animation légère */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Notre Histoire */
+.about-us-history {
+    margin-top: 10px;
+    background: none;
+    color: #333;
+    /*padding: 50px;*/
+    border-radius: 10px;
+    text-align: center;
+   /* border: 4px solid #f1be99;*/
+}
+
+/* Témoignages */
+.testimonials {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.testimonials h2 {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.testimonial-card {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 20px;
+    width: 45%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    min-width: 280px;
+}
+
+.testimonial-card::before {
+    content: '\201C';
+    font-size: 40px;
+    color: #8C5E3C;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+}
+
+.testimonial-content {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacement entre l’icône et le texte */
+}
+
+.testimonial-text {
+    flex: 1; /* Permet au texte d'occuper l'espace restant */
+}
+
+lightning-icon {
+    flex-shrink: 0; /* Empêche l'icône de rétrécir */
+}
+
+
+
+.why-choose-us {
+    margin-top: 10px;
+    color: rgb(34, 18, 1);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.why-choose-grid {
+    background-color: #fdf8f0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.why-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 8px;
+    /*font-size: 18px;*/
+    text-align: center;
+}
+
+
+.cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   /* background-color: #f9f4f4;*/
+    color: #333;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+.cta:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.cta-text {
+    max-width: 60%;
+}
+
+.cta h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #cc7400;
+}
+
+.cta p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.cta-text:hover h3 {
+    color: #cc7400;
+}
+
+.cta-text:hover p {
+    color: #444;
+}
+
+.cta-button {
+    display: flex;
+    justify-content: flex-end;
+    width: 40%;
+}
+
+.cta-button lightning-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 30px;
+    /*background-color: #0066cc;*/
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center; /* Assure que le texte et l'icône sont alignés */
+    justify-content: center; /* Centre le contenu dans le bouton */
+}
+
+.cta-button lightning-button .slds-button__icon {
+    margin-right: 10px; /* Espacement entre l'icône et le texte */
+}
+
+.cta-button lightning-button:hover {
+    /*background-color: #b56100;*/
+    transform: scale(1.05);
+}
+
+.cta-button lightning-button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(204, 0, 0, 0.6);
+}

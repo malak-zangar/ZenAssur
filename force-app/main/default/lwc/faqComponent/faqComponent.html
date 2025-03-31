@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Questions fréquentes">
+        <div class="faq-container">
+            <template for:each={faqList} for:item="item">
+                <div key={item.id} class="faq-item">
+                    <button class="faq-question" onclick={toggleSection} data-id={item.id}>
+                        <span>💬 {item.question}</span>
+                        <span class="arrow" data-id={item.id}>
+                            <template if:true={item.isOpen}>▼</template>
+                            <template if:false={item.isOpen}>▶</template>
+                        </span>                    </button>
+                    <template if:true={item.isOpen}>
+                        <div class="faq-answer">
+                            <p>💡 {item.answer}</p>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
