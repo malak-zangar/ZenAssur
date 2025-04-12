@@ -14,7 +14,9 @@ export default class InsuranceOffers extends NavigationMixin(LightningElement){
 
     @wire(getHealthInsuranceProducts)
     wiredProducts({ error, data }) {
+        console.log('hey');
         if (data) {
+            console.log(data);
             let index = 0; // Initialisation de l'index manuellement
             this.products = data.map(product => {
                 const modifiedProduct = {
@@ -108,6 +110,7 @@ handleCloseSouscription() {
     }
 
     get groupedProductsWithKeys() {
+        console.log('test');
         if (!this.products || this.products.length === 0) {
             return [];
         }
@@ -132,6 +135,7 @@ handleCloseSouscription() {
     }
 
     handleSelectOffer(event) {
+        console.log(event);
         const productId = event.target.dataset.id;
         const product = this.products.find(p => p.Id === productId);
         const offerCard = event.target.closest('.offer-card'); // Récupère la carte de l'offre

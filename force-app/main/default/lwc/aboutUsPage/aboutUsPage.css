@@ -243,7 +243,7 @@ lightning-icon {
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 15px;
-    color: #cc7400;
+    color: #af6401a1;
 }
 
 .cta p {
@@ -254,7 +254,9 @@ lightning-icon {
 }
 
 .cta-text:hover h3 {
-    color: #cc7400;
+   /* color: #cc7400;*/
+    color: #884e0394;
+
 }
 
 .cta-text:hover p {

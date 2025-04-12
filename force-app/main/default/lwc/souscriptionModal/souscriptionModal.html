@@ -12,11 +12,15 @@
                     <div class="form-section">
                         <h3 class="section-title">Informations Personnelles</h3>
                         <div class="slds-grid slds-wrap slds-gutters">
-                            <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-input-field field-name="Salutation" label="Salutation" 
+                                 required class="custom-input"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
                                 <lightning-input-field field-name="LastName" label="Nom" 
                                  required class="custom-input"></lightning-input-field>
                             </div>
-                            <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-col slds-size_1-of-3">
                                 <lightning-input-field field-name="FirstName" label="Prénom" required class="custom-input"></lightning-input-field>
                             </div>
                             <div class="slds-col slds-size_1-of-2">
@@ -49,6 +53,9 @@
                                
                                 format-style="currency" ></lightning-input-field>
                             </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Title" aria-placeholder="Votre position" label="Votre position" required class="custom-input" ></lightning-input-field>
+                            </div>
                             <div class="slds-col slds-size_1-of-1 slds-p-bottom_medium">
                                 <lightning-input-field field-name="Address" label="Adresse" required class="custom-input"></lightning-input-field>
                             </div>
@@ -68,7 +75,6 @@
                             <div class="slds-col slds-size_1-of-3">
                                 <lightning-input-field field-name="Coverage_Duration__c" type="number" aria-placeholder="Durée (mois)" label="Durée (mois)" required class="custom-input"></lightning-input-field>
                             </div>
-                            <lightning-input-field field-name="Offer__c" value={offerId} class="slds-hidden"></lightning-input-field>
                         </div>
                     </div>
 
@@ -80,6 +86,9 @@
                         class="submit-button">
                     </lightning-button>
                     </div>
+                    <lightning-input-field field-name="Offer__c" value={offerId} class="slds-hidden"></lightning-input-field>
+                    <lightning-input-field field-name="LeadSource" value="Site Experience" class="slds-hidden"></lightning-input-field>
+
                 </lightning-record-edit-form>
             </div>
         </template>

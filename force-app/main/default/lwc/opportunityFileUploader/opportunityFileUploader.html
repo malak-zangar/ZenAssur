@@ -1,0 +1,80 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Chargement..."></lightning-spinner>
+    </template>
+    <template if:true={error}>
+        <div class="slds-notify slds-notify_alert slds-theme_error">
+            {error}
+        </div>
+    </template>
+    <template if:false={isLoading}>
+        <lightning-card title="Documents à fournir">
+            <div class="upload-container">
+                <!-- Fichier 1 -->
+                <div class="upload-box">
+                    <p><strong>👥 Liste des employés</strong></p>
+                    <lightning-file-upload
+                        accept=".csv,.xls,.xlsx"
+                        onuploadfinished={handleUpload}
+                        disabled={isFile1Disabled}
+                        multiple="false">
+                    </lightning-file-upload>
+                    <template if:true={uploadedFilesMap.file1}>
+                        <div class="file-pill">
+                            <a href={uploadedFilesMap.file1.downloadUrl} target="_blank">{uploadedFilesMap.file1.title}</a>
+                            <lightning-button-icon icon-name="utility:delete" alternative-text="Supprimer"
+                                onclick={deleteFile1} class="trash-icon">
+                            </lightning-button-icon>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Fichier 2 -->
+                <div class="upload-box">
+                    <p><strong>📈 Attestation CA </strong></p>
+                    <lightning-file-upload
+                        accept=".pdf"
+                        disabled={isFile2Disabled}
+                        onuploadfinished={handleUpload}
+                        multiple="false">
+                    </lightning-file-upload>
+                    <template if:true={uploadedFilesMap.file2}>
+                        <div class="file-pill">
+                            <a href={uploadedFilesMap.file2.downloadUrl} target="_blank">{uploadedFilesMap.file2.title}</a>
+                            <lightning-button-icon icon-name="utility:delete" alternative-text="Supprimer"
+                                onclick={deleteFile2} class="trash-icon">
+                            </lightning-button-icon>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Fichier 3 -->
+                <div class="upload-box">
+                    <p><strong>📘 Registre de commerce</strong></p>
+                    <lightning-file-upload
+                        accept=".pdf"
+                        disabled={isFile3Disabled}
+                        onuploadfinished={handleUpload}
+                        multiple="false">
+                    </lightning-file-upload>
+                    <template if:true={uploadedFilesMap.file3}>
+                        <div class="file-pill">
+                            <a href={uploadedFilesMap.file3.downloadUrl} target="_blank">{uploadedFilesMap.file3.title}</a>
+                            <lightning-button-icon icon-name="utility:delete" alternative-text="Supprimer"
+                                onclick={deleteFile3} class="trash-icon">
+                            </lightning-button-icon>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <lightning-button 
+    variant="brand" 
+                disabled={isButtonDisabled}
+    label="Envoyer" 
+    onclick={goToQualification}
+    class="slds-m-top_medium">
+</lightning-button>
+
+        </lightning-card>
+    </template>
+</template>

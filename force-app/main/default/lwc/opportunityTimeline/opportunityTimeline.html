@@ -1,0 +1,47 @@
+<template>
+    <template if:true={styledStages}>
+        <lightning-card>
+            <div class="custom-title">Suivi de ma souscription en cours</div>
+            <div class="timeline-container">
+                <template for:each={styledStages} for:item="stage">
+                    <div key={stage.value} class={stage.classList}>
+                        <div class="timeline-icon">{stage.icon}</div>
+                        <div class="timeline-title">{stage.label}</div>
+                        <div class="timeline-desc">{stage.description}</div>
+                    </div>
+                </template>
+            </div>
+            <div class="stage-content">
+                <template if:true={isProspecting}>
+                    <p>📩 Nous avons bien reçu votre demande. Merci de déposer vos documents.</p>
+                        <p>❕ Vous avez une seule tentative, une fois cliqué sur "Envoyer" vous ne pouvez plus modifier. ❕</p> <br/>
+                   <p><c-opportunity-file-uploader opportunity-id={opportunityId} onstagechanged={handleStageChanged}></c-opportunity-file-uploader>
+                   </p>
+                </template>
+                <template if:true={isQualification}>
+                    <p>🔎 Vos documents sont en cours d'analyse par notre équipe. </p>
+                    <p>Vous recevrez votre devis dés qu'il sera pret.</p>
+                </template>
+                <template if:true={isProposal}>
+                    <p>💰 Un devis est disponible dans votre espace.</p>
+                </template>
+                <template if:true={isNegotiation}>
+                    <p>🔁 Nous examinons vos retours concernant le devis proposé.</p>
+                </template>
+                <template if:true={isContract}>
+                    <p>🤝 Votre contrat est en préparation. Vous recevrez un lien de signature.</p>
+                </template>
+                <template if:true={isClosedWon}>
+                    <p>✅ Félicitations ! Votre contrat est validé. Bienvenue chez ZenAssur ✨</p>
+                </template>
+                <template if:true={isClosedLost}>
+                    <p>❌ Votre souscription n’a pas pu être finalisée.</p>
+                </template>
+            </div>
+            
+        </lightning-card>
+    </template>
+    <template if:false={styledStages}>
+        <p>Aucune souscription en cours trouvée.</p>
+    </template>
+</template>
