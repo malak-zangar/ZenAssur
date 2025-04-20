@@ -1,0 +1,69 @@
+<template>
+    <div class="quote-info-box">
+        <div class="quote-text">
+            <h2>💰 Votre devis personnalisé vous a été envoyé par email !</h2>
+            <p>
+                Vous pouvez dès maintenant consulter l'offre reçue dans votre boîte de réception. Elle a été soigneusement préparée pour répondre à vos besoins spécifiques.
+            </p>
+            <p class="info-highlight">
+                ⚠️ Veuillez noter que vous disposez d’une seule tentative pour effectuer votre choix :
+            </p>
+
+            <ul class="quote-actions">
+                <li class="slds-m-bottom_x-small">
+                    <lightning-button 
+                    label="✅ Accepter le devis" 
+                    variant="success" 
+                    onclick={handleAccept} 
+                    disabled={disableButtons}
+                    class={acceptButtonClass}>
+                </lightning-button>
+                    <span>lance immédiatement la création de votre contrat.</span>
+                </li>
+
+                <li class="slds-m-bottom_x-small">
+                    <lightning-button 
+                        label="🔁 Demander une révision" 
+                        onclick={handleAskRevision} 
+                        disabled={disableButtons}
+                        class={reviseButtonClass}>
+                    </lightning-button>
+                    <span>un de nos agents vous contactera pour ajuster l’offre.</span>
+                </li>
+
+                <li class="slds-m-bottom_x-small">
+                    <lightning-button 
+                        label="❌ Refuser le devis" 
+                        variant="destructive-text" 
+                        onclick={handleRefuse} 
+                        disabled={disableButtons}
+                        class={refuseButtonClass}>
+                    </lightning-button>
+                    <span>mettra fin à votre demande en cours.</span>
+                </li>
+            </ul>
+
+            <p>
+                Merci de nous faire part de votre décision via les options ci-dessus dans les brefs délais.
+            </p>
+        </div>
+
+        <img src={image} alt="Aperçu du devis" class="quote-image" />
+    </div>
+
+    <template if:true={showReasonField}>
+        <lightning-textarea 
+            label="Veuillez préciser la raison de votre choix s'il vous plaît" 
+            value={reason} 
+            onchange={handleReasonChange}>
+        </lightning-textarea>
+        <br/>
+        <lightning-button 
+            variant="brand" 
+            label="Envoyer" 
+            onclick={submitReason} 
+            class="slds-m-top_small"
+            disabled={isSubmitDisabled}>
+        </lightning-button>
+    </template>
+</template>

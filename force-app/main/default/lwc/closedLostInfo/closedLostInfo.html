@@ -1,0 +1,28 @@
+<template>
+    <div class="info-box">
+        <div class="text">
+            <template if:true={isQuoteRejected}>
+                <h2>❌ Devis refusé</h2>
+                <p>Votre souscription n’a pas pu être finalisée car le devis proposé a été refusé.</p>
+                <p><strong>Motif :</strong> {opportunityReason}</p>
+                <p class="info-highlight">
+                    💡 N’hésitez pas à nous recontacter pour une nouvelle simulation adaptée à vos besoins.
+                </p>
+            </template>
+
+            <template if:false={isQuoteRejected}>
+                <h2>❌ Souscription annulée</h2>
+                <p>Votre demande n’a pas été finalisée.</p>
+                <p>
+                    Cela peut être dû à l'absence de signature du contrat ou à une interruption du processus.
+                    Nous restons à votre disposition si vous souhaitez reprendre votre simulation plus tard.
+                </p>
+                <p class="info-highlight">
+                    💡 N’hésitez pas à nous recontacter pour bénéficier d’un accompagnement personnalisé.
+                </p>
+            </template>
+        </div>
+
+        <img src={image} alt="" class="image" />
+    </div>
+</template>

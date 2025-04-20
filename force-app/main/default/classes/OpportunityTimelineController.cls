@@ -13,7 +13,7 @@ public without sharing class OpportunityTimelineController {
         }
 
         List<Opportunity> opps = [
-            SELECT Id, Name, StageName
+            SELECT Id, Name, StageName,Description
             FROM Opportunity
             WHERE AccountId IN (
                 SELECT AccountId FROM Contact WHERE Id = :currentUser.ContactId
@@ -83,5 +83,6 @@ public static Boolean moveToQualificationStage(Id opportunityId) {
         throw new AuraHandledException('Erreur : ' + e.getMessage());
     }
 }
+
 
 }

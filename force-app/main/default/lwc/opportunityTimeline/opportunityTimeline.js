@@ -8,6 +8,8 @@ export default class OpportunityTimeline extends LightningElement {
     @track styledStages = [];
     rawStages = [];
     opportunityId;
+    @track opportunityReason;
+
 
     iconsMap = {
         'Prospecting': '📩',
@@ -33,6 +35,7 @@ export default class OpportunityTimeline extends LightningElement {
     wiredOpportunity({ data, error }) {
         if (data) {
             this.opportunityId = data.Id;
+            this.opportunityReason = data.Description; // <-- Stocke la raison
             getCurrentStage({ opportunityId: this.opportunityId })
                 .then(stage => {
                     this.currentStage = stage;
@@ -100,6 +103,55 @@ export default class OpportunityTimeline extends LightningElement {
         const finalStep = this.getFinalStepDisplay();
         this.styledStages.push(finalStep);
     }
+
+    updateStyledStages() {
+        if (!this.rawStages || !this.currentStage) return;
+    
+        let passed = true;
+        this.styledStages = [];
+    
+        for (let stage of this.rawStages) {
+            // 🚫 On ignore "Closed Won" et "Closed Lost" ici, comme avant
+            if (stage.value === 'Closed Won' || stage.value === 'Closed Lost') {
+                continue;
+            }
+    
+            // ⚠️ Filtrage spécial pour "Negotiation/Review"
+            if (stage.value === 'Negotiation/Review' && this.currentStage !== 'Negotiation/Review' ) {
+                continue; // ❌ On saute "Négociation" si elle n'est pas encore atteinte
+            }
+    
+            let statusClass = 'pending';
+            if (stage.value === this.currentStage) {
+                statusClass = 'current';
+                passed = false;
+            } else if (passed) {
+                statusClass = 'complete';
+            }
+    
+            const labelMap = {
+                'Prospecting': 'Demande',
+                'Qualification': 'Documents',
+                'Proposal/Price Quote': 'Devis',
+                'Negotiation/Review': 'Négociation',
+                'Preparing contract': 'Contrat',
+            };
+    
+            this.styledStages.push({
+                ...stage,
+                icon: this.iconsMap[stage.value] || '❓',
+                description: this.descriptionsMap[stage.value] || '',
+                status: statusClass,
+                classList: `timeline-step ${statusClass}`,
+                label: labelMap[stage.value] || stage.label
+            });
+        }
+    
+        // ➕ Étape finale toujours visible
+        const finalStep = this.getFinalStepDisplay();
+        this.styledStages.push(finalStep);
+    }
+    
     
    /* updateStyledStages() {
         if (!this.rawStages || !this.currentStage) return;
@@ -156,6 +208,14 @@ export default class OpportunityTimeline extends LightningElement {
         }
     }
 
+    get isQuoteRejected() {
+        console.log(this.isClosedLost);
+        console.log(this.opportunityReason);
+        console.log(this.opportunityReason.toLowerCase().includes('devis refusé'));
+        console.log(this.isClosedLost && this.opportunityReason.toLowerCase().includes('devis refusé'));
+        return this.isClosedLost && this.opportunityReason.toLowerCase().includes('devis refusé');
+    }
+    
     
     get isProspecting() {
         return this.currentStage === 'Prospecting';
@@ -191,6 +251,20 @@ export default class OpportunityTimeline extends LightningElement {
                 this.updateStyledStages(); // Met à jour l'affichage de la timeline
        
     }
-    
+          
+            async handleQuoteRefresh() {
+                try {
+                  
+                    const stage = await getCurrentStage({ opportunityId: this.opportunityId });
+                    console.log('✅ Étape récupérée (await) :', stage);
+                    this.currentStage = stage;
+
+                    this.updateStyledStages();
+                    window.location.reload();
+
+                } catch (error) {
+                    console.error('Erreur Apex:', error);
+                }
+            }
 
 }

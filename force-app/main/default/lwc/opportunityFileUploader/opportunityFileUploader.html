@@ -8,6 +8,11 @@
         </div>
     </template>
     <template if:false={isLoading}>
+        <div class="info-box">
+            <div class="text">
+                <h2>📩 Nous avons bien reçu votre demande. Merci de déposer vos documents.</h2>
+                <p class="info-highlight">❕ Vous avez une seule tentative, une fois cliqué sur "Envoyer" vous ne pouvez plus modifier. ❕</p> <br/>
+        
         <lightning-card title="Documents à fournir">
             <div class="upload-container">
                 <!-- Fichier 1 -->
@@ -75,6 +80,6 @@
     class="slds-m-top_medium">
 </lightning-button>
 
-        </lightning-card>
+        </lightning-card> </div></div>
     </template>
 </template>
