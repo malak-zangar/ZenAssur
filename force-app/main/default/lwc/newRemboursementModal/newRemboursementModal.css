@@ -1,0 +1,284 @@
+/* Style du titre */
+.form-title {
+    text-align: center;
+    font-size: 1.75rem; 
+    font-weight: bold;
+    color: #724603af; 
+    margin-bottom: 1.5rem;
+}
+
+.form-container {
+    max-width: 600px; 
+    margin: 0 auto; 
+    background: #fcf9f9a8;
+    padding: 2rem 4rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres des sections */
+.section-title {
+    color: #4e2f01;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 2px solid #724603af;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.custom-input {
+ /*   border: 1px solid #d1d1d1;*/
+    border-radius: 5px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Effet au focus */
+.custom-input:focus {
+    border-color: #ad6902 !important;
+    box-shadow: 0 0 5px rgba(173, 105, 2, 0.5);
+}
+
+/* Bouton principal */
+lightning-button {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: bold;
+   /* background-color: #d29a00;*/
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    transition: background 0.3s ease-in-out;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* Ajout d’un effet sur les champs désactivés */
+lightning-input[disabled] {
+    background-color: #f4f4f41c;
+    font-weight: bold;
+    border: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .form-container {
+        width: 95%;
+    }
+    .slds-col {
+        width: 100% !important;
+    }
+}
+/* Style spécifique pour l'adresse */
+.input_addresse {
+    border: 1px solid rgba(173, 105, 2, 0.5);
+    border-radius: 5px;
+    padding: 10px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Effet focus sur le champ adresse */
+.input_addresse:focus {
+    border-color: #ad6902 !important;
+    box-shadow: 0 0 5px rgba(173, 105, 2, 0.5) ;
+}
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.success-card {
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    animation: cardEntrance 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    border: 1px solid #e0e0e0;
+}
+
+.success-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+}
+
+.success-icon-container {
+    margin: 0 auto 1.5rem;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f5e9;
+    border-radius: 50%;
+    animation: iconScale 0.4s 0.2s both;
+}
+
+.success-icon {
+    width: 48px;
+    height: 48px;
+    fill: #4CAF50;
+}
+
+.success-title {
+    color: #2E7D32;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.success-message {
+    color: #012903;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.success-details {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #616161;
+    font-size: 0.95rem;
+}
+
+.detail-icon {
+    width: 20px;
+    height: 20px;
+    fill: #757575;
+}
+
+.close-button {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* Animations */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes iconScale {
+    0% {
+        transform: scale(0);
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Effet au survol */
+.success-card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+.submit-button[disabled] {
+    background-color: #dddbda !important;
+    border-color: #dddbda !important;
+    color: #706e6b !important;
+    cursor: not-allowed;
+}
+
+/* Style des erreurs de validation */
+.slds-has-error .slds-input {
+    border-color: #c23934;
+    box-shadow: #c23934 0 0 0 1px inset;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.custom-input {
+    margin-bottom: 1rem;
+}
+
+.custom-input lightning-helptext {
+    color: #c26d34;
+    font-size: 0.75rem;
+}
+
+.slds-has-error .slds-form-element__help {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.file-pill {
+    margin-top: 10px;
+    background: #f3f3f3;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    word-break: break-word;
+}
+
+.trash-icon {
+    margin-top: 5px;
+    align-self: flex-start;
+}

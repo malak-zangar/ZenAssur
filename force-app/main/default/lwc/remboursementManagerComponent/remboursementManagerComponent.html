@@ -1,0 +1,118 @@
+<template>
+    <lightning-card>
+        <div class="custom-title slds-align-middle slds-p-around_x-large slds-text-heading_large">
+            <lightning-icon 
+                icon-name="utility:discounts" 
+                size="large" 
+                alternative-text="Remboursement" 
+                class="slds-m-right_x-large">
+            </lightning-icon>
+            Mes demandes de Remboursements
+        </div>
+      
+        <!-- Affichage du Solde Restant -->
+        <div class="header">
+            <div class="solde-restant">
+                <strong>Mon solde Restant :</strong> {soldeRestant} DT
+            </div>
+            <lightning-button label="Rafraîchir" onclick={handleRefreshPage} icon-name="utility:refresh"></lightning-button> 
+
+            <lightning-button label="Demander un nouveau remboursement" onclick={handleShowForm} class="add-button"></lightning-button>
+        </div>
+
+        <!-- Tableau des Remboursements -->
+        <template if:true={remboursements}>
+            <div class="slds-p-around_medium">
+                <div class="search-bar-wrapper">
+                    <lightning-input 
+                        type="search" 
+                        placeholder="Rechercher par nom, type, statut ou date..." 
+                        onchange={handleSearch}
+                        class="styled-search"
+                    ></lightning-input>
+
+                </div>
+
+            </div>
+            <lightning-datatable
+                data={paginatedRemboursements}   columns={columns} key-field="id"
+                hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
+                sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
+        </template>
+
+        <!-- Pagination -->
+        <div class="pagination">
+
+            <lightning-button-icon
+            icon-name="utility:left"
+            alternative-text="Précédent"
+            onclick={handlePreviousPage}
+            class="slds-m-right_small"
+            disabled={isFirstPage}>
+        </lightning-button-icon>
+
+            <span>{currentPage} / {totalPages}</span>
+    
+        <lightning-button-icon
+            icon-name="utility:right"
+            alternative-text="Suivant"
+            onclick={handleNextPage}
+               disabled={isLastPage}
+            class="slds-m-left_small">
+        </lightning-button-icon>
+        </div>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container slds-modal_custom">
+                <header class="slds-modal__header slds-modal__header_custom">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                    </button>
+                    <h1 class="slds-text-heading_medium slds-text-color_default">Détails de la demande {selectedRemboursement.Name}</h1>
+                </br>
+                    <span style={selectedStatusStyle}>
+                        {selectedRemboursement.Statut__c}
+                    </span>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-p-bottom_medium">
+                    <div class="slds-p-around_large slds-text-align_left"> <!-- Alignement du texte à gauche -->
+                        <div class="slds-box slds-box_xx-small slds-theme_alert-texture slds-text-heading_medium">
+        
+                    <p><strong>- Nom :</strong> {selectedRemboursement.Name}</p>
+                    <p><strong>- Date des soins :</strong> {selectedRemboursement.Date_des_soins__c}</p>
+                    <p><strong>- Type de soins :</strong> {selectedRemboursement.Type_de_soins__c}</p>
+                    <p><strong>- Montant total à rembourser :</strong> {selectedRemboursement.Montant_demande__c} DT</p>
+                    <p><strong>- Date de demande :</strong> {selectedRemboursement.Date_demande__c}</p>
+                    <p><strong>- Montant remboursé :</strong> {selectedRemboursement.Montant_rembourse__c} DT</p>
+
+                    <template if:true={selectedRemboursement.FileUrl}>
+                        <p><strong>- Justificatif :</strong>
+                            <template  if:true={selectedRemboursement.FileUrl}>
+                                <lightning-button  
+                                variant="base"
+                                    label=" Ouvrir le justificatif" 
+                                    onclick={handleOpenPreviewInNewWindow}
+                                    icon-name="utility:new_window"
+                                    class="slds-m-top_medium">
+                                </lightning-button>
+                            </template>
+                        </p>
+                    </template>
+                   
+                    
+          
+                    
+                </div>
+                </div>
+                </div>
+                <footer class="slds-modal__footer slds-modal__footer_custom">
+                    <lightning-button label="Fermer" onclick={closeModal} class="slds-button_neutral"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+</template>
