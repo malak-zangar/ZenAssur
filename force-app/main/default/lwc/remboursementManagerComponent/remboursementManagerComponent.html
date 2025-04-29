@@ -3,11 +3,11 @@
         <div class="custom-title slds-align-middle slds-p-around_x-large slds-text-heading_large">
             <lightning-icon 
                 icon-name="utility:discounts" 
-                size="large" 
+                size="large"
                 alternative-text="Remboursement" 
                 class="slds-m-right_x-large">
             </lightning-icon>
-            Mes demandes de Remboursements
+            Mes demandes de remboursement
         </div>
       
         <!-- Affichage du Solde Restant -->
@@ -17,7 +17,7 @@
             </div>
             <lightning-button label="Rafraîchir" onclick={handleRefreshPage} icon-name="utility:refresh"></lightning-button> 
 
-            <lightning-button label="Demander un nouveau remboursement" onclick={handleShowForm} class="add-button"></lightning-button>
+            <lightning-button label="Demander un nouveau remboursement" onclick={handleShowForm} disabled={isDisabled} class="add-button"></lightning-button>
         </div>
 
         <!-- Tableau des Remboursements -->
@@ -68,7 +68,7 @@
             <div class="slds-modal__container slds-modal_custom">
                 <header class="slds-modal__header slds-modal__header_custom">
                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
-                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <lightning-icon  icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
                     </button>
                     <h1 class="slds-text-heading_medium slds-text-color_default">Détails de la demande {selectedRemboursement.Name}</h1>
                 </br>
@@ -85,7 +85,15 @@
                     <p><strong>- Type de soins :</strong> {selectedRemboursement.Type_de_soins__c}</p>
                     <p><strong>- Montant total à rembourser :</strong> {selectedRemboursement.Montant_demande__c} DT</p>
                     <p><strong>- Date de demande :</strong> {selectedRemboursement.Date_demande__c}</p>
+                    <template if:true={selectedRemboursement.Montant_rembourse__c}>
                     <p><strong>- Montant remboursé :</strong> {selectedRemboursement.Montant_rembourse__c} DT</p>
+                  </template>
+                    <template if:true={selectedRemboursement.Date_de_finalisation__c}>
+                        <p><strong>- Date de finalisation :</strong> {selectedRemboursement.Date_de_finalisation__c}</p>
+                    </template> 
+            <template if:true={isRefusedNotRefunded}>
+                <p><strong>- Cause de refus :</strong> {selectedRemboursement.Cause_de_refus__c}</p>
+            </template>
 
                     <template if:true={selectedRemboursement.FileUrl}>
                         <p><strong>- Justificatif :</strong>

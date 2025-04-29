@@ -1,0 +1,106 @@
+<template>
+    <lightning-card>
+        <div class="header slds-p-around_x-large">
+            <div class="left-space"></div> <!-- Espace vide à gauche -->
+        
+            <div class="title-section">
+                <lightning-icon 
+                    icon-name="utility:comments" 
+                    size="large" 
+                    alternative-text="Réclamation" 
+                    class="slds-m-right_medium">
+                </lightning-icon>
+                <span class="custom-title">Mes demandes de réclamation</span>
+            </div>
+        
+            <div class="right-section">
+                <lightning-button 
+                    label="Rafraîchir" 
+                    onclick={handleRefreshPage} 
+                    class="refresh-button" 
+                    icon-name="utility:refresh">
+                </lightning-button>
+            </div>
+        </div>
+        
+        <!-- Tableau des Remboursements -->
+        <template if:true={reclamations}>
+            <div class="slds-p-around_medium">
+                <div class="search-bar-wrapper">
+                    <lightning-input 
+                        type="search" 
+                        placeholder="Rechercher par objet, description, status ou date..." 
+                        onchange={handleSearch}
+                        class="styled-search"
+                    ></lightning-input>
+
+                </div>
+
+            </div>
+            <lightning-datatable
+                data={paginatedReclamations}   columns={columns} key-field="id"
+                hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
+                sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
+        </template>
+
+        <!-- Pagination -->
+        <div class="pagination">
+
+            <lightning-button-icon
+            icon-name="utility:left"
+            alternative-text="Précédent"
+            onclick={handlePreviousPage}
+            class="slds-m-right_small"
+            disabled={isFirstPage}>
+        </lightning-button-icon>
+
+            <span>{currentPage} / {totalPages}</span>
+    
+        <lightning-button-icon
+            icon-name="utility:right"
+            alternative-text="Suivant"
+            onclick={handleNextPage}
+               disabled={isLastPage}
+            class="slds-m-left_small">
+        </lightning-button-icon>
+        </div>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container slds-modal_custom">
+                <header class="slds-modal__header slds-modal__header_custom">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                    </button>
+                    <h1 class="slds-text-heading_medium slds-text-color_default">Détails de la demande {selectedReclamation.CaseNumber}</h1>
+                </br>
+                    <span style={selectedStatusStyle}>
+                        {selectedReclamation.Status}
+                    </span>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-p-bottom_medium">
+                    <div class="slds-p-around_large slds-text-align_left"> <!-- Alignement du texte à gauche -->
+                        <div class="slds-box slds-box_xx-small slds-theme_alert-texture slds-text-heading_medium">
+        
+                    <p><strong>- Numéro :</strong> {selectedReclamation.CaseNumber}</p>
+                    <p><strong>- Date de la demande :</strong> {formattedCreatedDate}</p>
+                    <template if:true={selectedReclamation.ClosedDate}>
+                        <p><strong>- Date de cloture :</strong> {formattedClosedDate}</p>
+                    </template> 
+                    <p><strong>- Origine :</strong> {selectedReclamation.Origin}</p>
+                    <p><strong>- Sujet :</strong> {selectedReclamation.Subject}</p>
+                    <p><strong>- Description :</strong> {selectedReclamation.Description}</p>
+        
+                </div>
+                </div>
+                </div>
+                <footer class="slds-modal__footer slds-modal__footer_custom">
+                    <lightning-button label="Fermer" onclick={closeModal} class="slds-button_neutral"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+</template>

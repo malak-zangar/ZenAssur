@@ -2,14 +2,15 @@ import { LightningElement, wire,track } from 'lwc';
 import getRemboursementsEtSolde from '@salesforce/apex/RemboursementController.getRemboursementsEtSolde';
 import { NavigationMixin } from 'lightning/navigation';
 import getJustificatifDownloadUrl from '@salesforce/apex/RemboursementController.getJustificatifDownloadUrl';
+import { refreshApex } from '@salesforce/apex';
 
 export default class RemboursementManagerComponent extends NavigationMixin(LightningElement) {
     remboursements = [];
     soldeRestant = 0;
-    isFormVisible = false;
     currentPage = 1;
     itemsPerPage = 5;
     totalPages = 1;
+    wiredResult;
 
     selectedRemboursement;
 isModalOpen = false;
@@ -84,7 +85,7 @@ async handleRowAction(event) {
 
             this.selectedRemboursement = {
                 ...row,
-                FileUrl: fileUrl
+                FileUrl: fileUrl, 
             };
 
             this.isModalOpen = true;
@@ -127,7 +128,7 @@ async handleRowAction(event) {
         }
     }*/
 
-        @wire(getRemboursementsEtSolde)
+       /* @wire(getRemboursementsEtSolde)
         wiredData({ data, error }) {
             if (data) {
                 this.allRemboursements = data.remboursements;
@@ -142,8 +143,26 @@ async handleRowAction(event) {
         
         handleRefreshPage() {
             window.location.reload();
-        }
-        
+        }*/
+             @wire(getRemboursementsEtSolde)
+            wiredData(result) {
+                this.wiredResult = result; // <--- on stocke
+                const { data, error } = result;
+                if (data) {
+                    this.allRemboursements = data.remboursements;
+                    this.remboursements = [...data.remboursements]; // copie pour affichage
+                    this.soldeRestant = data.soldeRestant;
+                    this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
+                    this.updatePageData();
+                    refreshApex(this.wiredResult);
+
+                 } else if (error) {
+                    console.log(error);
+                }
+            }
+            handleRefreshPage() {
+                refreshApex(this.wiredResult);
+            }
     // Pagination: mettre à jour les données pour la page actuelle
     updatePageData() {
 
@@ -239,7 +258,13 @@ handleSearch(event) {
     this.updatePageData();
 }
 
-    
-    
-    
+get isRefusedNotRefunded() {
+    return this.selectedRemboursement.Statut__c === 'Refusé non remboursé';
+}
+
+get isDisabled() {
+    return this.soldeRestant === 0;
+}
+
+
 }

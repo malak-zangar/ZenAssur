@@ -1,0 +1,46 @@
+<template>
+    <template if:true={offer}>
+        <div class="slds-fade-in-open">
+            <h1 class="slds-text-heading_large custom-title">Détails de l'offre: {offer.Name}</h1>
+
+            <div class="slds-p-around_medium slds-p-bottom_medium">
+                <div class="slds-p-around_large slds-text-align_left">
+                    <div class="slds-box slds-box_xx-small slds-theme_alert-texture slds-text-heading_medium">
+                        <p><strong>- Description:</strong> {offer.Description}</p>
+                        <p><strong>- Prix:</strong> {offer.Price__c} DT/mois</p>
+                        <p><strong>- Plafond de remboursement:</strong> {offer.Reimbursement_Cap__c} DT</p>
+                        <p><strong>- Durée de couverture:</strong> {offer.Coverage_Duration__c} mois</p>
+
+                        <p><strong>Couverture d'hospitalisation:</strong></p>
+                        <ul class="custom-list">
+                            <template for:each={hospitalizationOptions} for:item="item">
+                                <li key={item}>{item}</li>
+                            </template>
+                        </ul>
+
+                        <div class="slds-grid slds-align-items-center">
+                            <p class="slds-m-right_small"><strong>- Couverture dentaire et optique:</strong></p>
+                            {dentalCoverageIcon}
+                        </div>
+
+                        <p><strong>- Principaux avantages:</strong></p>
+                        <ul class="custom-list">
+                            <template for:each={benefitsOptions} for:item="item">
+                                <li key={item}>{item}</li>
+                            </template>
+                        </ul>
+
+                        <p><strong>- Exclusions:</strong></p>
+                        <ul class="custom-list">
+                            <template for:each={Exclusions} for:item="item">
+                                <li key={item}>{item}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </template>
+</template>

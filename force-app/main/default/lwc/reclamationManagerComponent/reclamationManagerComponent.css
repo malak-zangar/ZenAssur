@@ -1,0 +1,85 @@
+/* Style pour la pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination span {
+    margin: 0 10px;
+}
+
+
+/* Ajoutez à votre CSS existant */
+.card-container {
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.slds-modal.slds-fade-in-open {
+    animation: fadeIn 0.3s ease-in-out;
+}
+.slds-modal__content p {
+    margin-bottom: 12px; /* Ajuste selon l'espacement souhaité */
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Aligner le texte à gauche dans le modal */
+.slds-text-align_left {
+    text-align: left;
+}
+
+.slds-modal_custom {
+    max-width: 60% !important; /* Ajuste la largeur */
+    height: 100% !important; /* Ajuste la hauteur */
+}
+
+.search-bar-wrapper {
+    position: relative;
+    max-width: 400px;
+    margin: 1rem auto;
+}
+
+.styled-search {
+    padding-left: 2.5rem; /* espace pour l'icône */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    --slds-c-input-radius-border: 0.75rem;
+    --slds-c-input-color-border: #ccc;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Titre centré */
+.title-section {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+/* Titre : texte */
+.custom-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Bouton aligné à droite */
+.right-section {
+    margin-left: auto;
+}
+
+/* Ajout pour style du bouton */
+.refresh-button {
+    margin-left: 20px;
+}

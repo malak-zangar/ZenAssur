@@ -12,10 +12,10 @@ public with sharing class RemboursementController {
         SELECT Id FROM ContentDocumentLink 
         WHERE ContentDocumentId = :contentDocumentId 
         AND LinkedEntityId IN (SELECT Id FROM Contact)
-    ];
+     ];
     try {
         delete anciensLiens;
-    } catch (Exception e) {
+     } catch (Exception e) {
         System.debug('Erreur suppression anciens liens : ' + e.getMessage());
         throw new AuraHandledException('Erreur suppression anciens liens : ' + e.getMessage());
     }
@@ -51,8 +51,6 @@ public with sharing class RemboursementController {
         throw new AuraHandledException('Version de fichier introuvable.');
     }
     
-    
-    
 
     @AuraEnabled
     public static void attacherFichierRemboursement(Id remboursementId, Id contentDocumentId) {
@@ -80,8 +78,6 @@ public with sharing class RemboursementController {
     }
     
     
-    
-    
     @AuraEnabled
 public static Id getContactIdForUser() {
     User u = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
@@ -98,21 +94,57 @@ public static Id getContactIdForUser() {
     
         Contact contact = [SELECT Id, FirstName, LastName FROM Contact WHERE Id = :currentUser.ContactId];
         Integer count = [SELECT COUNT() FROM Remboursement__c WHERE Contact__c = :contact.Id];
-    
+        String uid = String.valueOf(Crypto.getRandomInteger()).substring(0,5);
+        
         Remboursement__c remboursement = new Remboursement__c();
         remboursement.Contact__c = contact.Id;
         remboursement.Date_demande__c = Date.today();
         remboursement.Date_des_soins__c = dateSoins;
         remboursement.Montant_demande__c = montant;
-        remboursement.Montant_rembourse__c = 0;
+       // remboursement.Montant_rembourse__c = 0;
         remboursement.Type_de_soins__c = typeSoins;
         remboursement.Statut__c = 'En attente';
-        remboursement.Name = 'Remboursement - ' + contact.FirstName + ' ' + contact.LastName + ' #00' + (count + 1);
+        remboursement.Name = 'Remb-' + contact.FirstName.substring(0,2) + '-' + contact.LastName.substring(0,2) + ' #' + uid;
     
         insert remboursement;
         return remboursement.Id;
     }
     
+    @AuraEnabled(cacheable=true)
+    public static Product2 getProduct() {
+          // 1. Récupérer le contact lié à l'utilisateur connecté
+        User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+    
+        if (currentUser.ContactId == null) {
+            throw new AuraHandledException('Aucun contact lié à cet utilisateur.');
+        }
+
+        Contact contact = [SELECT Id, AccountId FROM Contact WHERE Id = :currentUser.ContactId];
+
+        // 2. Trouver la dernière opportunité du compte (ex : la dernière Closed Won)
+        Opportunity opp = [
+            SELECT Id FROM Opportunity 
+            WHERE AccountId = :contact.AccountId 
+            AND StageName = 'Closed Won'
+            ORDER BY CloseDate DESC
+            LIMIT 1
+        ];
+
+        // 3. Récupérer le produit lié via OpportunityLineItem
+        OpportunityLineItem oli = [
+            SELECT Product2.Id, Product2.Name, Product2.ProductCode,Product2.Description, Product2.Price__c, Product2.Coverage_Duration__c, 
+            Product2.Reimbursement_Cap__c, Product2.Reimbursement_Percentage__c, 
+            Product2.Deductible__c, Product2.Dental_and_Optical_Coverage__c, 
+            Product2.Hospitalization_Coverage__c, Product2.Image_URL__c,Product2.Exclusions__c,Product2.Main_Benefits__c
+            FROM OpportunityLineItem
+            WHERE OpportunityId = :opp.Id
+            LIMIT 1
+        ];
+    
+        return oli.Product2;
+
+    }
+
 
     @AuraEnabled(cacheable=true)
     public static RemboursementData getRemboursementsEtSolde() {
@@ -146,10 +178,10 @@ public static Id getContactIdForUser() {
 
         // 4. Récupérer les remboursements liés au contact
         List<Remboursement__c> remboursements = [
-            SELECT Id,Name,Statut__c, Montant_rembourse__c,Type_de_soins__c,Montant_demande__c, Date_des_soins__c,Date_demande__c
+            SELECT Id,Name,Statut__c,Date_de_finalisation__c,Cause_de_refus__c, Montant_rembourse__c,Type_de_soins__c,Montant_demande__c, Date_des_soins__c,Date_demande__c
             FROM Remboursement__c
             WHERE Contact__c = :contact.Id
-            ORDER BY Date_demande__c DESC
+            ORDER BY Date_de_finalisation__c DESC, Date_demande__c DESC
         ];
 
         // 5. Calcul du total remboursé
@@ -160,7 +192,9 @@ public static Id getContactIdForUser() {
 
         // 6. Calcul du solde restant
         Decimal solde = cap - totalRembourse;
-
+        if (solde <= 0) {
+        solde = 0;
+        }
         // 7. Retourner les données
         RemboursementData result = new RemboursementData();
         result.remboursements = remboursements;
