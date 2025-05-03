@@ -36,7 +36,7 @@
             </div>
             <lightning-datatable
                 data={paginatedRemboursements}   columns={columns} key-field="id"
-                hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
+                hide-checkbox-column show-row-number-column="true" onrowaction={handleRowAction}  sorted-by={sortedBy}
                 sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
         </template>
 

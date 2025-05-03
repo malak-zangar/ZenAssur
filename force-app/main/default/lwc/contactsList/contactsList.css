@@ -1,0 +1,111 @@
+:host {
+    display: block;
+    padding: 1rem;
+}
+
+.slds-col{
+    margin-top: 30px;
+}
+
+.slds-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+ 
+.slds-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+ 
+.slds-table th, .slds-table td {
+    border: 1px solid #d8dde6;
+    padding: 0.5rem;
+}
+ 
+.slds-table th {
+    background-color: #f3f4f6;
+    font-weight: bold;
+    text-align: left;
+}
+ 
+.slds-table td {
+    text-align: left;
+}
+
+lightning-button{
+    margin: 10px;
+}
+
+.slds-button-group {
+    margin-top: 1rem;
+}
+ 
+.slds-button-group .slds-button {
+    margin-right: 0.5rem;
+}
+
+/* Style général du composant */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.left-buttons,
+.right-buttons {
+    display: flex;
+    align-items: center;
+}
+
+
+.custom-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+
+.add-button {
+    margin-right: 20px;
+}
+
+/* Style pour la pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination span {
+    margin: 0 10px;
+}
+
+
+/* Ajoutez à votre CSS existant */
+.card-container {
+    gap: 1rem;
+    padding: 1rem;
+}
+
+
+/* Aligner le texte à gauche dans le modal */
+.slds-text-align_left {
+    text-align: left;
+}
+
+.search-bar-wrapper {
+    position: relative;
+    max-width: 400px;
+    margin: 1rem auto;
+}
+
+.styled-search {
+    padding-left: 2.5rem; /* espace pour l'icône */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    --slds-c-input-radius-border: 0.75rem;
+    --slds-c-input-color-border: #ccc;
+}

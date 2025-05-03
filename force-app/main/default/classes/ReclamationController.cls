@@ -20,4 +20,15 @@ public with sharing class ReclamationController {
 
 
     }
+
+
+    @AuraEnabled(cacheable=true)
+    public static List<Case> getAllReclamations() {
+        return [
+            SELECT Id, CaseNumber, Status, ContactId, Contact.Name, CreatedDate, Subject
+            FROM Case
+            ORDER BY CreatedDate DESC
+        ];
+    }
+    
 }

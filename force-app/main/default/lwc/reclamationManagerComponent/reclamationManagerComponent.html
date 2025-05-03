@@ -38,7 +38,7 @@
 
             </div>
             <lightning-datatable
-                data={paginatedReclamations}   columns={columns} key-field="id"
+                data={paginatedReclamations}   columns={columns} key-field="id" show-row-number-column="true"
                 hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
                 sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
         </template>

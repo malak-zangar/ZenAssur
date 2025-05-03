@@ -205,4 +205,19 @@ public static Id getContactIdForUser() {
 
 
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Remboursement__c> getAllRemboursements() {
+        return [
+            SELECT Id, Name, Statut__c, Date_de_finalisation__c, 
+                   Contact__c, Contact__r.Name,  // récupération du nom du contact lié
+                   Cause_de_refus__c, Montant_rembourse__c, 
+                   Type_de_soins__c, Montant_demande__c, 
+                   Date_des_soins__c, Date_demande__c
+            FROM Remboursement__c
+            ORDER BY Date_demande__c DESC
+        ];
+    }
+    
+
 }

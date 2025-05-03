@@ -32,4 +32,16 @@ public with sharing class QuoteService {
         update q;
         update opp;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Quote> getQuotes(){
+        try {
+            return [SELECT id, name, AccountId, Account.Name,QuoteNumber, TotalPrice, Status   
+                    FROM Quote
+                    ORDER BY QuoteNumber DESC];
+           
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }

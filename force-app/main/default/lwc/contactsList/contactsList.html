@@ -1,0 +1,77 @@
+<template>
+    <lightning-card >
+        <div class="header">
+            <!-- Bloc gauche : Refresh -->
+            <div class="left-buttons">
+                <lightning-button 
+                    label="Rafraîchir" 
+                    variant="destructive-text" 
+                    onclick={handleRefreshPage} 
+                    icon-name="utility:refresh">
+                </lightning-button> 
+            </div>
+        
+            <!-- Bloc droit : les 3 autres boutons -->
+            <div class="right-buttons">
+                <lightning-button 
+                    label="Nouveau contact" 
+                    variant="destructive-text"
+                    icon-name="utility:add" 
+                    onclick={handleCreateRecord} 
+                    class="slds-m-left_x-small"
+                    >
+                </lightning-button>
+                <lightning-button 
+                    label="Télécharger en CSV" 
+                    variant="destructive-text" 
+                    onclick={downloadCSV} 
+                    icon-name="utility:download" 
+                    class="slds-m-left_x-small">
+                </lightning-button>
+            </div>
+        </div>
+        
+
+        <template if:true={contacts}>
+            <div class="slds-p-around_medium">
+                <div class="search-bar-wrapper">
+                    <lightning-input 
+                        type="search" 
+                        placeholder="Rechercher..." 
+                        onchange={handleSearch}
+                        class="styled-search"
+                    ></lightning-input>
+
+                </div>
+
+            </div>
+            <lightning-datatable
+                data={paginatedContacts}  columns={columns} key-field="id" show-row-number-column="true"
+                hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
+                sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
+        </template>
+        <!-- Pagination -->
+        <div class="pagination">
+
+            <lightning-button-icon
+            icon-name="utility:left"
+            alternative-text="Précédent"
+            onclick={handlePreviousPage}
+            class="slds-m-right_small"
+            disabled={isFirstPage}>
+        </lightning-button-icon>
+
+            <span>{currentPage} / {totalPages}</span>
+    
+        <lightning-button-icon
+            icon-name="utility:right"
+            alternative-text="Suivant"
+            onclick={handleNextPage}
+               disabled={isLastPage}
+            class="slds-m-left_small">
+        </lightning-button-icon>
+        </div>
+   
+    </lightning-card>
+
+</template>

@@ -84,5 +84,17 @@ public static Boolean moveToQualificationStage(Id opportunityId) {
     }
 }
 
+@AuraEnabled(cacheable=true)
+public static List<Opportunity> getOpportunities() {
+
+    List<Opportunity> opps = [
+        SELECT Id, Name, StageName,Description,ExpectedRevenue,Amount,AccountId, Account.Name
+        FROM Opportunity
+        ORDER BY Id DESC
+    ];
+
+
+    return opps.isEmpty() ? null : opps;
+}
 
 }
