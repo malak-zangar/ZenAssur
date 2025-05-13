@@ -19,7 +19,15 @@ export default class QuotesList extends NavigationMixin(LightningElement) {
     columns = [
         { label: 'Nom', fieldName: 'Name',sortable: true },
         { label: 'Compte lié', fieldName: 'AccountName',sortable: true },
-        { label: 'Prix total (DT)', fieldName: 'TotalPrice',sortable: true},
+       // { label: 'Prix total (DT)', fieldName: 'TotalPrice_formatted',sortable: true},
+       {
+        label: 'Prix total (DT)',
+        fieldName: 'TotalPrice',
+        type: 'currency',
+        typeAttributes: { currencyCode: 'TND', minimumFractionDigits: 3 },
+        sortable: true
+    },
+    
         { label: 'Statut', fieldName: 'Status', type: 'text', sortable: true,
             cellAttributes: {
                 class: 'slds-text-align_center',
@@ -155,10 +163,16 @@ export default class QuotesList extends NavigationMixin(LightningElement) {
         return {
             ...rec,
             statutColor: this.getStatusColor(rec.Status),
-            AccountName: rec.Account ? rec.Account.Name : ''
+            AccountName: rec.Account ? rec.Account.Name : '',
+            TotalPrice_formatted: this.formatNumber(rec.TotalPrice)
 
         };
     });
+}
+
+formatNumber(value) {
+    if (value == null) return '';
+    return Number(value).toLocaleString('de-DE', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
 }
 
 handleNextPage() {

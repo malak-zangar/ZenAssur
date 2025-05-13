@@ -8,17 +8,17 @@ public with sharing class RemboursementController {
 
     @AuraEnabled
     public static void deleteContentDocumentLink(Id contentDocumentId) {    
-    List<ContentDocumentLink> anciensLiens = [
-        SELECT Id FROM ContentDocumentLink 
-        WHERE ContentDocumentId = :contentDocumentId 
-        AND LinkedEntityId IN (SELECT Id FROM Contact)
-     ];
-    try {
-        delete anciensLiens;
-     } catch (Exception e) {
-        System.debug('Erreur suppression anciens liens : ' + e.getMessage());
-        throw new AuraHandledException('Erreur suppression anciens liens : ' + e.getMessage());
-    }
+        List<ContentDocumentLink> anciensLiens = [
+            SELECT Id FROM ContentDocumentLink 
+            WHERE ContentDocumentId = :contentDocumentId 
+            AND LinkedEntityId IN (SELECT Id FROM Contact)
+        ];
+        try {
+            delete anciensLiens;
+        } catch (Exception e) {
+            System.debug('Erreur suppression anciens liens : ' + e.getMessage());
+            throw new AuraHandledException('Erreur suppression anciens liens : ' + e.getMessage());
+        }
     }
 
     @AuraEnabled
@@ -149,59 +149,59 @@ public static Id getContactIdForUser() {
     @AuraEnabled(cacheable=true)
     public static RemboursementData getRemboursementsEtSolde() {
           // 1. Récupérer le contact lié à l'utilisateur connecté
-    User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
-    
-    if (currentUser.ContactId == null) {
-        throw new AuraHandledException('Aucun contact lié à cet utilisateur.');
-    }
-
-    Contact contact = [SELECT Id, AccountId FROM Contact WHERE Id = :currentUser.ContactId];
-
-        // 2. Trouver la dernière opportunité du compte (ex : la dernière Closed Won)
-        Opportunity opp = [
-            SELECT Id FROM Opportunity 
-            WHERE AccountId = :contact.AccountId 
-            AND StageName = 'Closed Won'
-            ORDER BY CloseDate DESC
-            LIMIT 1
-        ];
-
-        // 3. Récupérer le produit lié via OpportunityLineItem
-        OpportunityLineItem oli = [
-            SELECT Id, Product2.Reimbursement_Cap__c
-            FROM OpportunityLineItem
-            WHERE OpportunityId = :opp.Id
-            LIMIT 1
-        ];
-
-        Decimal cap = oli.Product2.Reimbursement_Cap__c;
-
-        // 4. Récupérer les remboursements liés au contact
-        List<Remboursement__c> remboursements = [
-            SELECT Id,Name,Statut__c,Date_de_finalisation__c,Cause_de_refus__c, Montant_rembourse__c,Type_de_soins__c,Montant_demande__c, Date_des_soins__c,Date_demande__c
-            FROM Remboursement__c
-            WHERE Contact__c = :contact.Id
-            ORDER BY Date_de_finalisation__c DESC, Date_demande__c DESC
-        ];
-
-        // 5. Calcul du total remboursé
-        Decimal totalRembourse = 0;
-        for (Remboursement__c r : remboursements) {
-            totalRembourse += (r.Montant_rembourse__c != null) ? r.Montant_rembourse__c : 0;
+        User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+        
+        if (currentUser.ContactId == null) {
+            throw new AuraHandledException('Aucun contact lié à cet utilisateur.');
         }
 
-        // 6. Calcul du solde restant
-        Decimal solde = cap - totalRembourse;
-        if (solde <= 0) {
-        solde = 0;
-        }
-        // 7. Retourner les données
-        RemboursementData result = new RemboursementData();
-        result.remboursements = remboursements;
-        result.reimbursementCap = cap;
-        result.soldeRestant = solde;
+        Contact contact = [SELECT Id, AccountId FROM Contact WHERE Id = :currentUser.ContactId];
 
-        return result;
+            // 2. Trouver la dernière opportunité du compte (ex : la dernière Closed Won)
+            Opportunity opp = [
+                SELECT Id FROM Opportunity 
+                WHERE AccountId = :contact.AccountId 
+                AND StageName = 'Closed Won'
+                ORDER BY CloseDate DESC
+                LIMIT 1
+            ];
+
+            // 3. Récupérer le produit lié via OpportunityLineItem
+            OpportunityLineItem oli = [
+                SELECT Id, Product2.Reimbursement_Cap__c
+                FROM OpportunityLineItem
+                WHERE OpportunityId = :opp.Id
+                LIMIT 1
+            ];
+
+            Decimal cap = oli.Product2.Reimbursement_Cap__c;
+
+            // 4. Récupérer les remboursements liés au contact
+            List<Remboursement__c> remboursements = [
+                SELECT Id,Name,Statut__c,Date_de_finalisation__c,Cause_de_refus__c, Montant_rembourse__c,Type_de_soins__c,Montant_demande__c, Date_des_soins__c,Date_demande__c
+                FROM Remboursement__c
+                WHERE Contact__c = :contact.Id
+                ORDER BY Date_de_finalisation__c DESC, Date_demande__c DESC
+            ];
+
+            // 5. Calcul du total remboursé
+            Decimal totalRembourse = 0;
+            for (Remboursement__c r : remboursements) {
+                totalRembourse += (r.Montant_rembourse__c != null) ? r.Montant_rembourse__c : 0;
+            }
+
+            // 6. Calcul du solde restant
+            Decimal solde = cap - totalRembourse;
+            if (solde <= 0) {
+            solde = 0;
+            }
+            // 7. Retourner les données
+            RemboursementData result = new RemboursementData();
+            result.remboursements = remboursements;
+            result.reimbursementCap = cap;
+            result.soldeRestant = solde;
+
+            return result;
 
 
     }

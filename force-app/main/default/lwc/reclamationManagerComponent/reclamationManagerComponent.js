@@ -193,5 +193,24 @@ handleSearch(event) {
     this.updatePageData();
 }
 
+formatDate(dateStr) {
+    if (!dateStr) return '';
+    const options = { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: false, 
+        timeZone: 'Europe/Paris'
+    };
+    return new Intl.DateTimeFormat('fr-FR', options).format(new Date(dateStr));
+}
+get formattedCreatedDate() {
+    return this.formatDate(this.selectedReclamation?.CreatedDate);
+}
 
+get formattedClosedDate() {
+    return this.formatDate(this.selectedReclamation?.ClosedDate);
+}
 }

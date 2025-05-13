@@ -1,6 +1,6 @@
 import { LightningElement } from 'lwc';
-import closedwon from '@salesforce/resourceUrl/closedwon';
+import WonClosed from '@salesforce/resourceUrl/WonClosed';
 
 export default class ClosedwonComponent extends LightningElement {
-    image=closedwon;
+    image=WonClosed;
 }

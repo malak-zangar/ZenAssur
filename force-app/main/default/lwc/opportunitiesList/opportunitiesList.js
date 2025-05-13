@@ -18,7 +18,7 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
 
     columns = [
         { label: 'Nom', fieldName: 'Name',sortable: true },
-        { label: 'Revenu total (DT)', fieldName: 'Amount',sortable: true },
+        { label: 'Revenu total (DT)', fieldName: 'Amount_formatted',sortable: true },
         { label: 'Compte lié', fieldName: 'AccountName',sortable: true},
          { label: 'Statut', fieldName: 'StageName', type: 'text', sortable: true,
             cellAttributes: {
@@ -161,12 +161,16 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
         return {
             ...rec,
             statutColor: this.getStatusColor(rec.StageName),
-            AccountName: rec.Account ? rec.Account.Name : ''
+            AccountName: rec.Account ? rec.Account.Name : '',
+            Amount_formatted: this.formatNumber(rec.Amount)
 
         };
     });
 }
-
+formatNumber(value) {
+    if (value == null) return '';
+    return Number(value).toLocaleString('de-DE', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+}
 handleNextPage() {
     if (this.currentPage < this.totalPages) {
         this.currentPage++;

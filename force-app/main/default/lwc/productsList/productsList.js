@@ -19,8 +19,8 @@ export default class ProductsList extends NavigationMixin(LightningElement) {
     columns = [
         { label: 'Nom', fieldName: 'Name',sortable: true },
         { label: 'Description', fieldName: 'Description',sortable: true },
-        { label: 'Prix en DT', fieldName: 'Price__c',sortable: true},
-        { label: 'Plafond en  DT', fieldName: 'Reimbursement_Cap__c',sortable: true}, 
+        { label: 'Prix en DT', fieldName: 'Price__c_formatted',  sortable: true },
+        { label: 'Plafond en DT', fieldName: 'Reimbursement_Cap__c_formatted', sortable: true },    
         {
             type: "button", label: '', initialWidth: 75, typeAttributes: {
                 name: 'View',
@@ -137,9 +137,18 @@ export default class ProductsList extends NavigationMixin(LightningElement) {
     this.paginatedProducts = this.products.slice(start, end).map(rec => {
         return {
             ...rec,
+            Price__c_formatted: this.formatNumber(rec.Price__c),
+            Reimbursement_Cap__c_formatted: this.formatNumber(rec.Reimbursement_Cap__c),
+
         };
     });
 }
+
+formatNumber(value) {
+    if (value == null) return '';
+    return Number(value).toLocaleString('de-DE', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+}
+
 
 handleNextPage() {
     if (this.currentPage < this.totalPages) {

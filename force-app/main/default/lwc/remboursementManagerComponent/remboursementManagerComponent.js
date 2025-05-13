@@ -18,29 +18,6 @@ isModalOpen = false;
 @track sortedBy;
 @track sortedDirection = 'asc';
 
-/*@track remboursements = [];
-@track allRemboursements = [];
-@track paginatedRemboursements = [];
-
-connectedCallback() {
-    this.loadData();
-}
-
-loadData() {
-    getRemboursementsEtSolde()
-        .then(data => {
-            this.allRemboursements = data.remboursements;
-            this.remboursements = [...data.remboursements];
-            this.soldeRestant = data.soldeRestant;
-            this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
-            this.currentPage = 1;
-            this.updatePageData();
-        })
-        .catch(error => {
-            console.error('Erreur chargement remboursements', error);
-        });
-}*/
-
 
 handleOpenPreviewInNewWindow() {
     if (this.selectedRemboursement?.FileUrl) {
@@ -116,34 +93,6 @@ async handleRowAction(event) {
             }
     }
 
-   /* @wire(getRemboursementsEtSolde)
-    wiredData({ data, error }) {
-        if (data) {
-           this.remboursements = data.remboursements;
-            this.soldeRestant = data.soldeRestant;
-            this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
-            this.updatePageData();
-        } else if (error) {
-            console.log(error);
-        }
-    }*/
-
-       /* @wire(getRemboursementsEtSolde)
-        wiredData({ data, error }) {
-            if (data) {
-                this.allRemboursements = data.remboursements;
-                this.remboursements = [...data.remboursements]; // copie pour affichage
-                this.soldeRestant = data.soldeRestant;
-                this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
-                this.updatePageData();
-            } else if (error) {
-                console.log(error);
-            }
-        }
-        
-        handleRefreshPage() {
-            window.location.reload();
-        }*/
              @wire(getRemboursementsEtSolde)
             wiredData(result) {
                 this.wiredResult = result; // <--- on stocke
