@@ -91,7 +91,7 @@ public class RemboursementFraudeService {
                 };
 
                 HttpRequest req = new HttpRequest();
-                req.setEndpoint('https://48e8-165-51-134-83.ngrok-free.app/predict');
+                req.setEndpoint('https://d9bd-197-3-0-226.ngrok-free.app/predict');
                 req.setMethod('POST');
                 req.setHeader('Content-Type', 'application/json');
                 req.setBody(JSON.serialize(payload));
@@ -111,7 +111,7 @@ public class RemboursementFraudeService {
                         explanationFormatted += '- ' + item.get('feature') + ' (impact : ' + item.get('impact') + ')\n';
                     }
 
-                    r.isFraud__c = prediction == 1;
+                    //r.isFraud__c = prediction == 1;
                     r.ScoreFraude__c = score;
                     r.FraudReason__c = explanationFormatted;
                     remboursementsToUpdate.add(r);
@@ -131,5 +131,15 @@ public class RemboursementFraudeService {
                 System.debug('Erreur update : ' + e.getMessage());
             }
         }
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static Remboursement__c getRemboursement(Id remboursementId) {
+        return [
+            SELECT Id, ScoreFraude__c, isFraud__c, FraudReason__c
+            FROM Remboursement__c
+            WHERE Id = :remboursementId
+            LIMIT 1
+        ];
     }
 }

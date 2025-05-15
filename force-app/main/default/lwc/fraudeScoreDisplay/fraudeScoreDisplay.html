@@ -1,0 +1,51 @@
+<template>
+    <div class="fraude-container">
+        <h2 class="fraude-title">Analyse de fraude</h2>
+
+        <template if:true={remboursement}>
+            <div class="fraude-content">
+                <!-- Cercle SVG -->
+                <svg width="120" height="120">
+                    <circle
+                        cx="60"
+                        cy="60"
+                        r="45"
+                        stroke="#eee"
+                        stroke-width="10"
+                        fill="none"
+                    ></circle>
+                    <circle
+                        cx="60"
+                        cy="60"
+                        r="45"
+                        stroke={progressColor}
+                        stroke-width="10"
+                        fill="none"
+                        stroke-dasharray={circumference}
+                        stroke-dashoffset={strokeDashoffset}
+                        stroke-linecap="round"
+                        transform="rotate(-90 60 60)"
+                    ></circle>
+                    <text x="50%" y="50%" text-anchor="middle" dy=".3em"  font-size="18">{score}%</text>
+                </svg>
+
+                <!-- Explication -->
+                <template if:true={remboursement.FraudReason__c}>
+                  <div class="explanations">
+    <strong>Explication des principales causes de ce score :</strong>
+    <ul>
+        <template for:each={formattedFraudReasons} for:item="item">
+            <li key={item.text} class={item.colorClass}>- {item.text}</li>
+        </template>
+    </ul>
+</div>
+
+                </template>
+            </div>
+        </template>
+
+        <template if:true={error}>
+            <p style="color:red;">Erreur : {error.body.message}</p>
+        </template>
+    </div>
+</template>

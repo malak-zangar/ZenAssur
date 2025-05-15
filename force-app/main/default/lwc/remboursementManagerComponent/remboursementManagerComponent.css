@@ -89,3 +89,45 @@
     --slds-c-input-radius-border: 0.75rem;
     --slds-c-input-color-border: #ccc;
 }
+
+.impact-red {
+    color: rgb(68, 9, 4);
+}
+
+.impact-green {
+    color: #012904;
+}
+
+.impact-neutral {
+    color: #555;
+    font-style: italic;
+}
+
+/* Appliquer des puces sous forme de cercles avant chaque élément de liste */
+.custom-list {
+    list-style-type: none; /* Enlever les puces par défaut */
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Ajouter un espacement similaire à celui des titres avant les éléments de la liste */
+.custom-list li {
+    position: relative;
+    padding-left: 20px; /* Espacement pour l'icône */
+    margin-bottom: 10px; /* Espacement entre les éléments */
+    margin-left: 60px; /* Espacement pour aligner avec les titres */
+}
+
+/* Ajouter des puces en forme de cercle */
+.custom-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d29a00; /* Couleur du cercle (par exemple, bleu) */
+}

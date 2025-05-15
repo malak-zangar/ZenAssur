@@ -9,7 +9,7 @@ export default class ReclamationManagerComponent extends NavigationMixin(Lightni
   reclamations = [];
     soldeRestant = 0;
     currentPage = 1;
-    itemsPerPage = 5;
+    itemsPerPage = 7;
     totalPages = 1;
 
     selectedReclamation;

@@ -5,7 +5,6 @@ import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 
-
 export default class RemboursementsList extends NavigationMixin(LightningElement) {
     wireResult;
     remboursements = [];
@@ -20,7 +19,18 @@ export default class RemboursementsList extends NavigationMixin(LightningElement
         { label: 'Nom', fieldName: 'Name',sortable: true },
         { label: 'Date de demande', fieldName: 'Date_demande__c',sortable: true},
         { label: 'Contact lié', fieldName: 'ContactName',sortable: true},
-        { label: 'Statut', fieldName: 'Statut__c', type: 'text', sortable: true,
+
+    {
+    label: 'Score de fraude',
+    fieldName: 'ScoreFraude__c',
+    sortable: true,
+   cellAttributes: {
+        style: { fieldName: 'scoreColor' }
+    }
+}
+,
+    
+    { label: 'Statut', fieldName: 'Statut__c', type: 'text', sortable: true,
             cellAttributes: {
                 class: 'slds-text-align_center',
                 style: { fieldName: 'statutColor' }
@@ -142,6 +152,10 @@ export default class RemboursementsList extends NavigationMixin(LightningElement
         });
     }
 
+ getScoreVisual(score) {
+    const level = Math.floor(score / 10);
+    return '█'.repeat(level) + '░'.repeat(10 - level) + ` ${score}%`;
+}
 
  // Pagination: mettre à jour les données pour la page actuelle
  updatePageData() {
@@ -150,8 +164,18 @@ export default class RemboursementsList extends NavigationMixin(LightningElement
     const end = start + this.itemsPerPage;
 
     this.paginatedRemboursements = this.remboursements.slice(start, end).map(rec => {
+         let scoreColor = 'color: rgb(87, 196, 24);'; // vert
+
+if (rec.ScoreFraude__c >= 70) {
+    scoreColor = 'color: rgb(226, 25, 25);'; // rouge
+} else if (rec.ScoreFraude__c >= 40) {
+    scoreColor = 'color: rgb(241, 174, 28);'; // orange
+}
+
         return {
             ...rec,
+        scoreColor: scoreColor,
+                    ScoreFraude__c: this.getScoreVisual(rec.ScoreFraude__c),
             statutColor: this.getStatusColor(rec.Statut__c),
             ContactName: rec.Contact__r ? rec.Contact__r.Name : ''  // créer un champ plat
 

@@ -178,10 +178,10 @@ public static Id getContactIdForUser() {
 
             // 4. Récupérer les remboursements liés au contact
             List<Remboursement__c> remboursements = [
-                SELECT Id,Name,Statut__c,Date_de_finalisation__c,Cause_de_refus__c, Montant_rembourse__c,Type_de_soins__c,Montant_demande__c, Date_des_soins__c,Date_demande__c
+                SELECT Id,Name,Statut__c,Date_de_finalisation__c,Cause_de_refus__c, Montant_rembourse__c,Type_de_soins__c,Montant_demande__c, Date_des_soins__c,Date_demande__c, FraudReason__c 
                 FROM Remboursement__c
                 WHERE Contact__c = :contact.Id
-                ORDER BY Date_de_finalisation__c DESC, Date_demande__c DESC
+                ORDER BY Date_demande__c DESC
             ];
 
             // 5. Calcul du total remboursé
@@ -213,7 +213,8 @@ public static Id getContactIdForUser() {
                    Contact__c, Contact__r.Name,  // récupération du nom du contact lié
                    Cause_de_refus__c, Montant_rembourse__c, 
                    Type_de_soins__c, Montant_demande__c, 
-                   Date_des_soins__c, Date_demande__c
+                   Date_des_soins__c, Date_demande__c,FraudReason__c,
+                   isFraud__c, ScoreFraude__c 
             FROM Remboursement__c
             ORDER BY Date_demande__c DESC
         ];

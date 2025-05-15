@@ -1,0 +1,41 @@
+.fraude-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0rem auto;
+    font-family: sans-serif;
+}
+
+.fraude-title {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.fraude-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.explanations {
+    margin-top: 0.75rem;
+    background: #f9f9f9;
+    padding: 0.5rem;
+    border-left: 4px solid #ccc;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.impact-red {
+    color: rgb(68, 9, 4);
+}
+
+.impact-green {
+    color: #012904;
+}

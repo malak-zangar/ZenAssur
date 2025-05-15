@@ -91,9 +91,15 @@
                     <template if:true={selectedRemboursement.Date_de_finalisation__c}>
                         <p><strong>- Date de finalisation :</strong> {selectedRemboursement.Date_de_finalisation__c}</p>
                     </template> 
-            <template if:true={isRefusedNotRefunded}>
-                <p><strong>- Cause de refus :</strong> {selectedRemboursement.Cause_de_refus__c}</p>
-            </template>
+<template if:true={isRefusedNotRefunded}>
+    <p><strong>- Cause de refus :</strong> Tentative de fraude avec les causes suivantes : </p>
+    <ul class="custom-list">
+        <template for:each={formattedFraudReasons} for:item="item">
+            <li key={item.text} class={item.colorClass}>{item.text}</li>
+        </template>
+    </ul>
+</template>
+
 
                     <template if:true={selectedRemboursement.FileUrl}>
                         <p><strong>- Justificatif :</strong>

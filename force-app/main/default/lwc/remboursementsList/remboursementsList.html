@@ -57,7 +57,7 @@
             <lightning-datatable
                 data={paginatedRemboursements}   columns={columns} key-field="id" show-row-number-column="true"
                 hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
-                sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
+                sorted-direction={sortedDirection}  onsort={handleSort} custom-types={customTypes}></lightning-datatable>
         </template>
         <!-- Pagination -->
         <div class="pagination">

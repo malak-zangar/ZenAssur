@@ -8,7 +8,7 @@ export default class RemboursementManagerComponent extends NavigationMixin(Light
     remboursements = [];
     soldeRestant = 0;
     currentPage = 1;
-    itemsPerPage = 5;
+    itemsPerPage = 7;
     totalPages = 1;
     wiredResult;
 
@@ -210,6 +210,38 @@ handleSearch(event) {
 get isRefusedNotRefunded() {
     return this.selectedRemboursement.Statut__c === 'Refusé non remboursé';
 }
+
+get formattedFraudReasons() {
+    if (this.selectedRemboursement?.FraudReason__c) {
+        return this.selectedRemboursement.FraudReason__c
+            .split(/(?:^|\n|\r|\r\n)\s*-\s*/g) // prend chaque ligne qui commence par "- "
+            .map(reason => {
+                const trimmed = reason.trim();
+                if (!trimmed) return null; // filtre les vides
+
+                const match = trimmed.match(/\(impact\s*:\s*([-+]?\d*\.?\d+)\)/i);
+                let impactValue = 0;
+                if (match) {
+                    impactValue = parseFloat(match[1]);
+                }
+
+                return {
+                    text: trimmed,
+                    impact: impactValue,
+                    colorClass:
+                        impactValue > 0
+                            ? 'impact-red'
+                            : impactValue < 0
+                            ? 'impact-green'
+                            : 'impact-neutral'
+                };
+            })
+            .filter(Boolean); // enlève les null
+    }
+    return [];
+}
+
+
 
 get isDisabled() {
     return this.soldeRestant === 0;
