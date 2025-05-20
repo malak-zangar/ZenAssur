@@ -23,14 +23,6 @@
                 </lightning-button>
 
                 <lightning-button 
-                    label="Voir tableau de bord" 
-                    variant="destructive-text" 
-                    onclick={handleClickDashboard} 
-                    class="slds-m-left_x-large"
-                    icon-name="standard:dashboard_ea"
-                    >
-                </lightning-button>
-                <lightning-button 
                     label="Télécharger en CSV" 
                     variant="destructive-text" 
                     onclick={downloadCSV} 
@@ -40,7 +32,6 @@
             </div>
         </div>
         
-
         <template if:true={products}>
             <div class="slds-p-around_medium">
                 <div class="search-bar-wrapper">

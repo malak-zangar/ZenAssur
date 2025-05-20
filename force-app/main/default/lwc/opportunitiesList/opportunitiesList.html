@@ -40,7 +40,12 @@
                 </lightning-button>
             </div>
         </div>
-        
+         <div class="button-container"> 
+ <lightning-button-group>
+    <lightning-button variant='brand-outline' label="Les opportunités ouvertes" onclick={showPending} disabled={isEnCours}></lightning-button>
+    <lightning-button variant='brand-outline' label="Les opportunités fermées" onclick={showProcessed} disabled={isArchives}></lightning-button>
+</lightning-button-group> 
+</div>
 
         <template if:true={opportunities}>
             <div class="slds-p-around_medium">
@@ -60,6 +65,12 @@
                 hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
                 sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
         </template>
+
+          <template if:true={showNoResults}>
+    <p>Aucune opportunité trouvée pour ce filtre.</p>
+</template>
+
+
         <!-- Pagination -->
         <div class="pagination">
 

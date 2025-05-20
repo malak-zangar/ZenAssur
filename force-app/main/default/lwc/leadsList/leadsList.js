@@ -12,7 +12,9 @@ export default class LeadsList extends NavigationMixin(LightningElement) {
     currentPage = 1;
     itemsPerPage = 7;
     totalPages = 1;
-
+    @track showNoResults = false;
+    @track isEnCours = true;
+    @track isArchives = false;
     @track sortedBy;
     @track sortedDirection = 'asc';
 
@@ -75,7 +77,33 @@ export default class LeadsList extends NavigationMixin(LightningElement) {
             this.error = result.error;
         }
     }*/
+showPending() {
+    this.filteredLeads = this.allLeads.filter(r => 
+        r.Status != 'Closed - Converted' && r.Status != 'Closed - Not converted'
+    );
+        this.leads = [...this.filteredLeads]; // utilisée dans la recherche
 
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.leads.length / this.itemsPerPage);
+
+    this.updatePageData();
+
+        this.isEnCours = true;
+        this.isArchives = false;
+}
+
+showProcessed() {
+    this.filteredLeads = this.allLeads.filter(r => 
+        r.Status === 'Closed - Converted' || r.Status === 'Closed - Not converted'
+    );
+            this.leads = [...this.filteredLeads]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.leads.length / this.itemsPerPage);
+    this.isEnCours = false;
+    this.isArchives = true;
+    this.updatePageData();
+}
       @wire(getLeads)
     wiredData(result) {
         this.wiredResult = result; // <--- on stocke
@@ -84,6 +112,7 @@ export default class LeadsList extends NavigationMixin(LightningElement) {
             console.log(data);
             this.allLeads = data;
             this.leads = this.allLeads; // copie pour affichage
+            this.showPending(); // affichage par défaut
             this.totalPages = Math.ceil(this.leads.length / this.itemsPerPage);
             this.updatePageData();
             refreshApex(this.wiredResult);
@@ -225,10 +254,10 @@ const searchTerm = event.target.value.toLowerCase();
 
 if (!searchTerm) {
     // Si la barre de recherche est vide → réinitialiser la liste
-    this.leads = [...this.allLeads];
+    this.leads = [...this.filteredLeads];
 } else {
     // Sinon, filtrer à partir de la liste complète
-    this.leads = this.allLeads.filter(item =>
+    this.leads = this.filteredLeads.filter(item =>
         (item.Name && item.Name.toLowerCase().includes(searchTerm)) ||
         (item.Company && item.Company.toLowerCase().includes(searchTerm)) ||
         (item.Status && item.Status.toLowerCase().includes(searchTerm)) ||
@@ -288,8 +317,8 @@ this.updatePageData();
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: 'https://talan104-dev-ed.develop.lightning.force.com/lightning/r/Dashboard/01ZWU000000IQg52AG/view?queryScope=userFolders'
-            }
+                url: 'https://creative-impala-eeikd9-dev-ed.trailblaze.lightning.force.com/lightning/r/Dashboard/01Zd2000001tQMHEA2/view?queryScope=userFolders'
+                       }
         });
  
     }

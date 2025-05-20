@@ -11,14 +11,20 @@ export default class RemboursementManagerComponent extends NavigationMixin(Light
     itemsPerPage = 7;
     totalPages = 1;
     wiredResult;
-
+    @track showNoResults = false;
     selectedRemboursement;
-isModalOpen = false;
+    isModalOpen = false;
+
+    @track isEnCours = true;
+    @track isArchives = false;
     
-@track sortedBy;
-@track sortedDirection = 'asc';
+    @track sortedBy;
+    @track sortedDirection = 'asc';
 
-
+  get currentTitle() {
+        return this.isEnCours ? 'Mes demandes de remboursement en cours' : 'Mes remboursements archivés';
+    }
+    
 handleOpenPreviewInNewWindow() {
     if (this.selectedRemboursement?.FileUrl) {
         window.open(this.selectedRemboursement.FileUrl, '_blank');
@@ -92,6 +98,33 @@ async handleRowAction(event) {
                 return '';
             }
     }
+showPending() {
+    this.filteredRemboursements = this.allRemboursements.filter(r => 
+        r.Statut__c === 'En cours de traitement' || r.Statut__c === 'En attente'
+    );
+        this.remboursements = [...this.filteredRemboursements]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
+
+    this.updatePageData();
+
+        this.isEnCours = true;
+        this.isArchives = false;
+}
+
+showProcessed() {
+    this.filteredRemboursements = this.allRemboursements.filter(r => 
+        r.Statut__c === 'Validé remboursé' || r.Statut__c === 'Refusé non remboursé'
+    );
+            this.remboursements = [...this.filteredRemboursements]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
+    this.isEnCours = false;
+    this.isArchives = true;
+    this.updatePageData();
+}
 
              @wire(getRemboursementsEtSolde)
             wiredData(result) {
@@ -100,6 +133,7 @@ async handleRowAction(event) {
                 if (data) {
                     this.allRemboursements = data.remboursements;
                     this.remboursements = [...data.remboursements]; // copie pour affichage
+                    this.showPending(); // affichage par défaut
                     this.soldeRestant = data.soldeRestant;
                     this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
                     this.updatePageData();
@@ -191,10 +225,10 @@ handleSearch(event) {
 
     if (!searchTerm) {
         // Si la barre de recherche est vide → réinitialiser la liste
-        this.remboursements = [...this.allRemboursements];
+        this.remboursements = [...this.filteredRemboursements ];
     } else {
         // Sinon, filtrer à partir de la liste complète
-        this.remboursements = this.allRemboursements.filter(item =>
+        this.remboursements = this.filteredRemboursements .filter(item =>
             (item.Name && item.Name.toLowerCase().includes(searchTerm)) ||
             (item.Type_de_soins__c && item.Type_de_soins__c.toLowerCase().includes(searchTerm)) ||
             (item.Statut__c && item.Statut__c.toLowerCase().includes(searchTerm)) ||
@@ -207,11 +241,22 @@ handleSearch(event) {
     this.updatePageData();
 }
 
-get isRefusedNotRefunded() {
-    return this.selectedRemboursement.Statut__c === 'Refusé non remboursé';
+get isFraud() {
+        console.log('isFraud VALUE:', this.selectedRemboursement?.isFraud__c);
+    return this.selectedRemboursement?.isFraud__c === true;
 }
 
+get isRefusedNotRefunded() {
+    return (
+        this.selectedRemboursement?.Statut__c === 'Refusé non remboursé' &&
+        !this.selectedRemboursement?.isFraud__c
+    );
+}
+
+
 get formattedFraudReasons() {
+            console.log(this.selectedRemboursement?.FraudReason__c);
+
     if (this.selectedRemboursement?.FraudReason__c) {
         return this.selectedRemboursement.FraudReason__c
             .split(/(?:^|\n|\r|\r\n)\s*-\s*/g) // prend chaque ligne qui commence par "- "
@@ -238,6 +283,40 @@ get formattedFraudReasons() {
             })
             .filter(Boolean); // enlève les null
     }
+    return [];
+}
+
+get formattedFraudReasonss() {
+    const raw = this.selectedRemboursement?.FraudReason__c;
+    console.log('FraudReason brut:', raw);
+
+    if (raw) {
+        return raw
+            .split(/-\s(?=[^\-])/g) 
+            .map(reason => {
+                const trimmed = reason.trim();
+                if (!trimmed) return null;
+
+                const match = trimmed.match(/\(impact\s*:\s*([-+]?\d*\.?\d+)\)/i);
+                let impactValue = 0;
+                if (match) {
+                    impactValue = parseFloat(match[1]);
+                }
+
+                return {
+                    text: trimmed,
+                    impact: impactValue,
+                    colorClass:
+                        impactValue > 0
+                            ? 'impact-red'
+                            : impactValue < 0
+                            ? 'impact-green'
+                            : 'impact-neutral'
+                };
+            })
+            .filter(Boolean);
+    }
+
     return [];
 }
 

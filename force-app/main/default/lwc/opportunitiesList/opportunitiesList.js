@@ -12,7 +12,9 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
     currentPage = 1;
     itemsPerPage = 7;
     totalPages = 1;
-
+ @track showNoResults = false;
+    @track isEnCours = true;
+    @track isArchives = false;
     @track sortedBy;
     @track sortedDirection = 'asc';
 
@@ -58,6 +60,33 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
         }
     ];
 
+    showPending() {
+    this.filteredOpport = this.allOpportunities.filter(r => 
+        r.StageName != 'Closed Won' && r.StageName != 'Closed Lost'
+    );
+        this.opportunities = [...this.filteredOpport]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.opportunities.length / this.itemsPerPage);
+
+    this.updatePageData();
+
+        this.isEnCours = true;
+        this.isArchives = false;
+}
+
+showProcessed() {
+    this.filteredOpport = this.allOpportunities.filter(r => 
+        r.StageName === 'Closed Won' || r.StageName === 'Closed Lost'
+    );
+            this.opportunities = [...this.filteredOpport]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.opportunities.length / this.itemsPerPage);
+    this.isEnCours = false;
+    this.isArchives = true;
+    this.updatePageData();
+}
 
       @wire(getOpportunities)
     wiredData(result) {
@@ -67,6 +96,7 @@ export default class OpportunitiesList extends NavigationMixin(LightningElement)
             console.log(data);
             this.allOpportunities = data;
             this.opportunities = this.allOpportunities; // copie pour affichage
+            this.showPending(); // affichage par défaut
             this.totalPages = Math.ceil(this.opportunities.length / this.itemsPerPage);
             this.updatePageData();
             refreshApex(this.wiredResult);
@@ -220,10 +250,10 @@ const searchTerm = event.target.value.toLowerCase();
 
 if (!searchTerm) {
     // Si la barre de recherche est vide → réinitialiser la liste
-    this.opportunities = [...this.allOpportunities];
+    this.opportunities = [...this.filteredOpport];
 } else {
     // Sinon, filtrer à partir de la liste complète
-    this.opportunities = this.allOpportunities.filter(item =>
+    this.opportunities = this.filteredOpport.filter(item =>
         (item.Name && item.Name.toLowerCase().includes(searchTerm)) ||
         (item.Amount && item.Amount.toString().includes(searchTerm)) ||
         (item.StageName && item.StageName.toLowerCase().includes(searchTerm)) ||

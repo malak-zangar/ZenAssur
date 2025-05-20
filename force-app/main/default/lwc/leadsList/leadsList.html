@@ -1,20 +1,6 @@
 <template>
     <lightning-card >
-   <!--    <div class="slds-m-around_medium">
-            <div class="slds-grid slds-gutters">
-                <div class="slds-col"> 
-                    <lightning-button label="Nouvelle piste" onclick={handleCreateRecord} variant="brand-outline" class="slds-m-left_x-small"></lightning-button>
 
-                    <lightning-button variant="brand-outline" label="Voir tableau de bord" title="Primary action with lighter look" onclick={handleClickDashboard} class="slds-m-left_x-small"></lightning-button>
-                    
-                    <lightning-button variant="brand" label="Télécharger en CSV" onclick={downloadCSV} title="Download action with brand variant" icon-name="utility:download" class="slds-m-left_x-small"></lightning-button> 
-                    
-                </div>
-                
-                <div class="slds-col"></div>
-               
-            </div>
-        </div>--> 
         <div class="header">
             <!-- Bloc gauche : Refresh -->
             <div class="left-buttons">
@@ -55,7 +41,12 @@
             </div>
         </div>
         
-
+ <div class="button-container"> 
+ <lightning-button-group>
+    <lightning-button variant='brand-outline' label="Les pistes ouvertes" onclick={showPending} disabled={isEnCours}></lightning-button>
+    <lightning-button variant='brand-outline' label="Les pistes fermées" onclick={showProcessed} disabled={isArchives}></lightning-button>
+</lightning-button-group> 
+</div>
         <template if:true={leads}>
             <div class="slds-p-around_medium">
                 <div class="search-bar-wrapper">
@@ -74,6 +65,11 @@
                 hide-checkbox-column onrowaction={handleRowAction}  sorted-by={sortedBy}
                 sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
         </template>
+
+        
+        <template if:true={showNoResults}>
+    <p>Aucune piste trouvée pour ce filtre.</p>
+</template>
         <!-- Pagination -->
         <div class="pagination">
 

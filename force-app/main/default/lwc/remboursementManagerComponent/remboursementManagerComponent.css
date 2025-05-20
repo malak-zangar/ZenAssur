@@ -24,6 +24,9 @@
     margin-right: 20px;
 }
 
+.refresh-button {
+    margin-left: 20px;
+}
 /* Style pour la pagination */
 .pagination {
     display: flex;
@@ -129,5 +132,6 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #d29a00; /* Couleur du cercle (par exemple, bleu) */
+    background-color: #d29a00; 
 }
+

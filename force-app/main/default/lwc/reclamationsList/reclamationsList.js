@@ -12,7 +12,9 @@ export default class ReclamationsList extends NavigationMixin(LightningElement) 
     currentPage = 1;
     itemsPerPage = 7;
     totalPages = 1;
-
+ @track showNoResults = false;
+    @track isEnCours = true;
+    @track isArchives = false;
     @track sortedBy;
     @track sortedDirection = 'asc';
 
@@ -69,6 +71,34 @@ export default class ReclamationsList extends NavigationMixin(LightningElement) 
         }
     ];
 
+    showPending() {
+    this.filteredReclamations = this.allReclamations.filter(r => 
+        r.Status === 'En cours de traitement' || r.Status === 'Nouvelle'
+    );
+        this.reclamations = [...this.filteredReclamations]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.reclamations.length / this.itemsPerPage);
+
+    this.updatePageData();
+
+        this.isEnCours = true;
+        this.isArchives = false;
+}
+
+showProcessed() {
+    this.filteredReclamations = this.allReclamations.filter(r => 
+        r.Status === 'Fermée-traitée' || r.Status === 'Fermée-non traitée'
+    );
+            this.reclamations = [...this.filteredReclamations]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.reclamations.length / this.itemsPerPage);
+    this.isEnCours = false;
+    this.isArchives = true;
+    this.updatePageData();
+}
+
       @wire(getAllReclamations)
     wiredData(result) {
         this.wiredResult = result; // <--- on stocke
@@ -77,6 +107,7 @@ export default class ReclamationsList extends NavigationMixin(LightningElement) 
             console.log(data);
             this.allReclamations = data;
             this.reclamations = this.allReclamations; // copie pour affichage
+            this.showPending(); // affichage par défaut
             this.totalPages = Math.ceil(this.reclamations.length / this.itemsPerPage);
             this.updatePageData();
             refreshApex(this.wiredResult);
@@ -225,10 +256,10 @@ const searchTerm = event.target.value.toLowerCase();
 
 if (!searchTerm) {
     // Si la barre de recherche est vide → réinitialiser la liste
-    this.reclamations = [...this.allReclamations];
+    this.reclamations = [...this.filteredReclamations];
 } else {
     // Sinon, filtrer à partir de la liste complète
-    this.reclamations = this.allReclamations.filter(item =>
+    this.reclamations = this.filteredReclamations.filter(item =>
         (item.CaseNumber && item.CaseNumber.toString().toLowerCase().includes(searchTerm)) ||
         (item.Contact.Name && item.Contact.Name.toLowerCase().includes(searchTerm)) ||
         (item.Status && item.Status.toLowerCase().includes(searchTerm)) ||

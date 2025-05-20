@@ -11,7 +11,9 @@ export default class RemboursementsList extends NavigationMixin(LightningElement
     currentPage = 1;
     itemsPerPage = 7;
     totalPages = 1;
-
+    @track showNoResults = false;
+    @track isEnCours = true;
+    @track isArchives = false;
     @track sortedBy;
     @track sortedDirection = 'asc';
 
@@ -68,6 +70,34 @@ export default class RemboursementsList extends NavigationMixin(LightningElement
         }
     ];
 
+showPending() {
+    this.filteredRemboursements = this.allRemboursements.filter(r => 
+        r.Statut__c === 'En cours de traitement' || r.Statut__c === 'En attente'
+    );
+        this.remboursements = [...this.filteredRemboursements]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
+
+    this.updatePageData();
+
+        this.isEnCours = true;
+        this.isArchives = false;
+}
+
+showProcessed() {
+    this.filteredRemboursements = this.allRemboursements.filter(r => 
+        r.Statut__c === 'Validé remboursé' || r.Statut__c === 'Refusé non remboursé'
+    );
+            this.remboursements = [...this.filteredRemboursements]; // utilisée dans la recherche
+
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
+    this.isEnCours = false;
+    this.isArchives = true;
+    this.updatePageData();
+}
+
       @wire(getAllRemboursements)
     wiredData(result) {
         this.wiredResult = result; // <--- on stocke
@@ -76,6 +106,7 @@ export default class RemboursementsList extends NavigationMixin(LightningElement
             console.log(data);
             this.allRemboursements = data;
             this.remboursements = this.allRemboursements; // copie pour affichage
+            this.showPending(); // affichage par défaut
             this.totalPages = Math.ceil(this.remboursements.length / this.itemsPerPage);
             this.updatePageData();
             refreshApex(this.wiredResult);
@@ -232,10 +263,10 @@ const searchTerm = event.target.value.toLowerCase();
 
 if (!searchTerm) {
     // Si la barre de recherche est vide → réinitialiser la liste
-    this.remboursements = [...this.allRemboursements];
+    this.remboursements = [...this.filteredRemboursements];
 } else {
     // Sinon, filtrer à partir de la liste complète
-    this.remboursements = this.allRemboursements.filter(item =>
+    this.remboursements = this.filteredRemboursements.filter(item =>
         (item.Name && item.Name.toLowerCase().includes(searchTerm)) ||
         (item.Contact__r.Name && item.Contact__r.Name.toLowerCase().includes(searchTerm)) ||
         (item.Statut__c && item.Statut__c.toLowerCase().includes(searchTerm)) ||

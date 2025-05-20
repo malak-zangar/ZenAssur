@@ -91,7 +91,7 @@ public class RemboursementFraudeService {
                 };
 
                 HttpRequest req = new HttpRequest();
-                req.setEndpoint('https://d9bd-197-3-0-226.ngrok-free.app/predict');
+                req.setEndpoint('https://3071-197-3-0-226.ngrok-free.app/predict');
                 req.setMethod('POST');
                 req.setHeader('Content-Type', 'application/json');
                 req.setBody(JSON.serialize(payload));

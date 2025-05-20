@@ -109,3 +109,10 @@ lightning-button{
     --slds-c-input-radius-border: 0.75rem;
     --slds-c-input-color-border: #ccc;
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2vh;
+}

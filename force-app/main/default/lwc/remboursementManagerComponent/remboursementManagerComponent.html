@@ -6,19 +6,27 @@
                 size="large"
                 alternative-text="Remboursement" 
                 class="slds-m-right_x-large">
-            </lightning-icon>
-            Mes demandes de remboursement
+            </lightning-icon>{currentTitle}
         </div>
       
         <!-- Affichage du Solde Restant -->
         <div class="header">
-            <div class="solde-restant">
+        
+                        <lightning-button label="Rafraîchir" onclick={handleRefreshPage} icon-name="utility:refresh" class="refresh-button"></lightning-button> 
+
+               <lightning-button-group>
+    <lightning-button variant='brand' label="Mes demandes en cours" onclick={showPending} disabled={isEnCours}></lightning-button>
+    <lightning-button variant='brand' label="Mes demandes archivées" onclick={showProcessed} disabled={isArchives}></lightning-button>
+</lightning-button-group>
+
+            <lightning-button label="Nouveau remboursement"  icon-name="utility:add"  onclick={handleShowForm} disabled={isDisabled} class="add-button"></lightning-button>
+      
+   
+        </div>
+           
+    <div class="solde-restant">
                 <strong>Mon solde Restant :</strong> {soldeRestant} DT
             </div>
-            <lightning-button label="Rafraîchir" onclick={handleRefreshPage} icon-name="utility:refresh"></lightning-button> 
-
-            <lightning-button label="Demander un nouveau remboursement" onclick={handleShowForm} disabled={isDisabled} class="add-button"></lightning-button>
-        </div>
 
         <!-- Tableau des Remboursements -->
         <template if:true={remboursements}>
@@ -39,7 +47,9 @@
                 hide-checkbox-column show-row-number-column="true" onrowaction={handleRowAction}  sorted-by={sortedBy}
                 sorted-direction={sortedDirection}  onsort={handleSort}></lightning-datatable>
         </template>
-
+<template if:true={showNoResults}>
+    <p>Aucune demande trouvée pour ce filtre.</p>
+</template>
         <!-- Pagination -->
         <div class="pagination">
 
@@ -91,13 +101,17 @@
                     <template if:true={selectedRemboursement.Date_de_finalisation__c}>
                         <p><strong>- Date de finalisation :</strong> {selectedRemboursement.Date_de_finalisation__c}</p>
                     </template> 
-<template if:true={isRefusedNotRefunded}>
-    <p><strong>- Cause de refus :</strong> Tentative de fraude avec les causes suivantes : </p>
+<template if:true={isFraud}>
+    <p><strong>- Cause de refus :</strong> Tentative de fraude avec les causes suivantes :</p>
     <ul class="custom-list">
         <template for:each={formattedFraudReasons} for:item="item">
             <li key={item.text} class={item.colorClass}>{item.text}</li>
         </template>
     </ul>
+</template>
+
+<template if:true={isRefusedNotRefunded}>
+    <p><strong>- Cause de refus :</strong> {selectedRemboursement.Cause_de_refus__c}</p>
 </template>
 
 
@@ -120,6 +134,7 @@
                     
                 </div>
                 </div>
+                
                 </div>
                 <footer class="slds-modal__footer slds-modal__footer_custom">
                     <lightning-button label="Fermer" onclick={closeModal} class="slds-button_neutral"></lightning-button>
