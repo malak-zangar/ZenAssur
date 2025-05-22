@@ -317,7 +317,7 @@ this.updatePageData();
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: 'https://creative-impala-eeikd9-dev-ed.trailblaze.lightning.force.com/lightning/r/Dashboard/01Zd2000001tQMHEA2/view?queryScope=userFolders'
+                url: 'https://creative-impala-eeikd9-dev-ed.trailblaze.lightning.force.com/lightning/r/Dashboard/01Zd2000001tWGPEA2/view?queryScope=userFolders'
                        }
         });
  

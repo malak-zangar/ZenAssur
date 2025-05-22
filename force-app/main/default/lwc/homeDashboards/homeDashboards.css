@@ -1,0 +1,87 @@
+.dashboard-container {
+    padding: 2rem 5rem;
+    background: linear-gradient(145deg, #f8f3f0, #ffffff);
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 1450px;
+    margin: 0 auto;
+    margin: 0 4rem;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.button-section {
+    flex: 1 1 45%;
+    text-align: center;
+}
+
+.image-section {
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-image {
+    max-width: 100%;
+    width: 90%;
+ /*   border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);*/
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #1b1b1b;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.subtitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #5e5e5e;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 2fr;
+    gap: 1rem;
+}
+
+.dashboard-button {
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.dashboard-button:hover {
+    transform: scale(1.05);
+}
+
+/* Couleurs individuelles */
+.leads {
+    background-color: #94c2f0;
+}
+.opportunities {
+    background-color: #f3eba1;
+}
+.claims {
+    background-color: #daaf8d;
+}
+.reimbursements {
+    background-color: #97ecab;
+}

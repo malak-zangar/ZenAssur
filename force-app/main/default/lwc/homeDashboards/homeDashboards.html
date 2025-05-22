@@ -1,0 +1,36 @@
+<template>
+    <div class="dashboard-container">
+        <div class="dashboard-content">
+          
+                <h1 class="title">Bienvenue {fullGreeting} sur votre espace de rapports</h1>
+
+            <!-- Colonne droite : Image -->
+            <div class="image-section">
+               <!--  <img src="https://i.postimg.cc/L62GXS0z/Work-Hard-Happy-Hour-Sticker-by-Gum-Gum.gif" alt="Dashboard Animation" class="dashboard-image" />-->
+                <img src="https://i.postimg.cc/7P0VFK0C/Business-Success-Sticker.gif" alt="Dashboard Animation" class="dashboard-image" />
+
+            </div>
+
+              <!-- Colonne gauche : Boutons -->
+            <div class="button-section">
+                <p class="subtitle">Accédez rapidement à vos tableaux de bord clés</p>
+
+                <div class="button-grid">
+                    <button class="dashboard-button leads" onclick={handleClickDashboardLeads}>
+                        🔍 Tableau de bord des pistes
+                    </button>
+                    <button class="dashboard-button opportunities" onclick={handleClickDashboardOpportuinities}>
+                        💼 Tableau de bord des opportunités
+                    </button>
+                    <button class="dashboard-button reimbursements" onclick={handleClickDashboardReimbursements}>
+                        💸 Tableau de bord des remboursements
+                    </button>
+                    <button class="dashboard-button claims" onclick={handleClickDashboardClaims}>
+                        🛡️ Tableau de bord des réclamations
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

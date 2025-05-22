@@ -325,7 +325,8 @@ this.updatePageData();
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: 'https://talan104-dev-ed.develop.lightning.force.com/lightning/r/Dashboard/01ZWU000000IQg52AG/view?queryScope=userFolders'
+             url: 'https://creative-impala-eeikd9-dev-ed.trailblaze.lightning.force.com/lightning/r/Dashboard/01Zd2000001tuc5EAA/view?queryScope=userFolders'
+
             }
         });
  

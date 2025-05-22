@@ -273,17 +273,6 @@ this.updatePageData();
         document.body.removeChild(hiddenElement);
     }
 
-    /* Dashboard redirection */
-    handleClickDashboard(){
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: 'https://talan104-dev-ed.develop.lightning.force.com/lightning/r/Dashboard/01ZWU000000IQg52AG/view?queryScope=userFolders'
-            }
-        });
- 
-    }
-
     showToast(title, message, variant, mode) {
         const evt = new ShowToastEvent({
             title: title,
