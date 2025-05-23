@@ -16,18 +16,53 @@
                 <p class="subtitle">Accédez rapidement à vos tableaux de bord clés</p>
 
                 <div class="button-grid">
-                    <button class="dashboard-button leads" onclick={handleClickDashboardLeads}>
-                        🔍 Tableau de bord des pistes
-                    </button>
-                    <button class="dashboard-button opportunities" onclick={handleClickDashboardOpportuinities}>
-                        💼 Tableau de bord des opportunités
-                    </button>
-                    <button class="dashboard-button reimbursements" onclick={handleClickDashboardReimbursements}>
-                        💸 Tableau de bord des remboursements
-                    </button>
-                    <button class="dashboard-button claims" onclick={handleClickDashboardClaims}>
-                        🛡️ Tableau de bord des réclamations
-                    </button>
+                 <button class="dashboard-button leads" onclick={handleClickDashboardLeads}>
+    <lightning-icon
+        icon-name="utility:lead"
+        alternative-text="lead"
+        variant="inverse"
+        size="medium"
+        title="lead"
+        class="icon-spacing"
+    ></lightning-icon>
+    <span class="button-text">Tableau de bord des pistes</span>
+</button>
+
+<button class="dashboard-button opportunities" onclick={handleClickDashboardOpportuinities}>
+    <lightning-icon
+        icon-name="utility:opportunity"
+        alternative-text="opportunity"
+        variant="warning"
+        size="medium"
+        title="opportunity"
+        class="icon-spacing"
+    ></lightning-icon>
+    <span class="button-text">Tableau de bord des opportunités</span>
+</button>
+
+<button class="dashboard-button reimbursements" onclick={handleClickDashboardReimbursements}>
+    <lightning-icon
+        icon-name="utility:payment_deferred"
+        alternative-text="payment_deferred"
+        variant="success"
+        size="medium"
+        title="payment_deferred"
+        class="icon-spacing"
+    ></lightning-icon>
+    <span class="button-text">Tableau de bord des remboursements</span>
+</button>
+
+<button class="dashboard-button claims" onclick={handleClickDashboardClaims}>
+    <lightning-icon
+        icon-name="utility:alert"
+        alternative-text="alert"
+        variant="error"
+        size="medium"
+        title="alert"
+        class="icon-spacing"
+    ></lightning-icon>
+    <span class="button-text">Tableau de bord des réclamations</span>
+</button>
 
                 </div>
             </div>
